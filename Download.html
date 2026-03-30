@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>bhavyTr Downloads</title>
+</head>
+<body class="bg-black text-white font-mono">
+
+<!-- Navbar -->
+<nav class="sticky top-0 z-50 w-full bg-black border-b border-zinc-800">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <span class="text-white font-bold uppercase text-lg tracking-[0.3em]">BHAVYTR</span>
+      <span class="px-1.5 py-0.5 text-[10px] border border-zinc-700 text-zinc-500 rounded">v0.0.1</span>
+    </div>
+
+    <div class="flex items-center space-x-6 text-sm uppercase font-bold">
+      <a href="index.html" class="text-zinc-400 hover:text-white">Home</a>
+      <a href="documentation.html" class="text-zinc-400 hover:text-white">Documentation</a>
+      <a href="download.html" class="text-white">Download</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="text-center py-20 px-6">
+  <h1 class="text-5xl md:text-6xl font-bold mb-4">Download Center</h1>
+  <p class="text-zinc-500 max-w-2xl mx-auto">
+    Get the latest stable build of bhavyTr tensor engine and integrate it into your C/C++ projects.
+  </p>
+</section>
+
+<!-- Release Card -->
+<section class="max-w-4xl mx-auto px-6">
+  <div class="border border-zinc-800 rounded p-8 bg-zinc-950">
+    <div class="flex justify-between items-center flex-wrap gap-4">
+      <div>
+        <h2 class="text-2xl font-bold">v0.0.1 Stable</h2>
+        <p class="text-zinc-500 mt-1">Core Tensor Engine Release</p>
+      </div>
+
+      <a href="https://github.com/imohitsheoran/bhavyTr/releases/download/v0.0.1/bhavyTr-v0.0.1.zip"
+         class="bg-white text-black px-6 py-3 rounded hover:bg-zinc-200 transition">
+        Download ZIP
+      </a>
+    </div>
+
+    <div class="mt-6 grid md:grid-cols-2 gap-6 text-sm text-zinc-400">
+      <div>
+        <p class="text-white font-semibold mb-2">Includes</p>
+        <ul class="space-y-1">
+          <li>✔ tensor.h (API Interface)</li>
+          <li>✔ libtensor.a (Compiled Binary)</li>
+          <li>✔ Example Usage</li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-white font-semibold mb-2">Highlights</p>
+        <ul class="space-y-1">
+          <li>✔ Low-level memory control</li>
+          <li>✔ Fast tensor operations</li>
+          <li>✔ Static library integration</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Install Guide -->
+<section class="max-w-5xl mx-auto px-6 py-16">
+  <h2 class="text-3xl font-bold text-center mb-10">Quick Install Guide</h2>
+
+  <div class="grid md:grid-cols-2 gap-8">
+
+    <div class="border border-zinc-800 p-6 rounded">
+      <h3 class="text-xl font-semibold mb-3">1. Extract Package</h3>
+      <pre class="bg-zinc-900 p-3 rounded text-sm"><code>bhavyTr/
+ ├── include/tensor.h
+ ├── lib/libtensor.a
+ ├── examples/main.c</code></pre>
+    </div>
+
+    <div class="border border-zinc-800 p-6 rounded">
+      <h3 class="text-xl font-semibold mb-3">2. Compile & Link</h3>
+      <pre class="bg-zinc-900 p-3 rounded text-sm"><code>gcc main.c -Iinclude -Llib -ltensor -o app
+./app</code></pre>
+    </div>
+
+    <div class="border border-zinc-800 p-6 rounded md:col-span-2">
+      <h3 class="text-xl font-semibold mb-3">3. Include in Code</h3>
+      <pre class="bg-zinc-900 p-3 rounded text-sm"><code>#include "tensor.h"</code></pre>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center text-zinc-600 text-sm py-8 border-t border-zinc-800">
+  © 2026 bhavyTr • Built by Yuvraj
+</footer>
+
+</body>
+</html>

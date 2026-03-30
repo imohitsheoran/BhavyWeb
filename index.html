@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>bhavyTr</title>
+</head>
+<body class="bg-black text-white font-mono">
+
+<!-- Navbar -->
+<nav class="sticky top-0 z-50 w-full bg-black border-b border-zinc-800">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center space-x-4 group cursor-pointer">
+      <span class="text-white font-bold uppercase text-lg tracking-[0.3em]">BHAVYTR</span>
+      <span class="px-1.5 py-0.5 text-[10px] border border-zinc-700 text-zinc-500 rounded">v0.0.1</span>
+    </div>
+
+    <div class="flex items-center space-x-6 text-sm uppercase font-bold">
+      <a href="index.html" class="text-zinc-400 hover:text-white hover:tracking-widest transition">Home</a>
+      <a href="documentation.html" class="text-zinc-400 hover:text-white hover:tracking-widest transition">Documentation</a>
+      <a href="download.html" class="text-zinc-400 hover:text-white hover:tracking-widest transition">Download</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="text-center py-32 px-6">
+  <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">bhavyTr</h1>
+  <p class="text-zinc-400 max-w-2xl mx-auto text-lg mb-10">
+    A lightweight tensor library in C/C++ designed to give you full control over memory, stride, and tensor computation.
+  </p>
+
+  <div class="flex justify-center space-x-4">
+    <a href="documentation.html" class="bg-white text-black px-6 py-3 rounded hover:bg-zinc-200 transition">
+      Read Docs
+    </a>
+    <a href="download.html" class="border border-zinc-700 px-6 py-3 rounded hover:border-white transition">
+      Get Library
+    </a>
+  </div>
+</section>
+
+<!-- Philosophy -->
+<section class="py-24 px-6 border-t border-zinc-800">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-6">Why bhavyTr?</h2>
+    <p class="text-zinc-400">
+      Modern frameworks hide complexity. bhavyTr exposes it. Built for developers who want to truly understand how tensors work internally — from memory layout to stride computation.
+    </p>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="py-24 px-6 border-t border-zinc-800">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
+
+    <div class="border border-zinc-800 p-6 rounded hover:border-white transition">
+      <h3 class="text-xl font-semibold mb-3">Low-Level Control</h3>
+      <p class="text-zinc-400">Direct access to tensor memory, shape, and stride.</p>
+    </div>
+
+    <div class="border border-zinc-800 p-6 rounded hover:border-white transition">
+      <h3 class="text-xl font-semibold mb-3">Educational Design</h3>
+      <p class="text-zinc-400">Learn how tensor libraries actually work under the hood.</p>
+    </div>
+
+    <div class="border border-zinc-800 p-6 rounded hover:border-white transition">
+      <h3 class="text-xl font-semibold mb-3">Lightweight</h3>
+      <p class="text-zinc-400">Minimal and fast with no unnecessary abstractions.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Quick Start -->
+<section class="py-24 px-6 border-t border-zinc-800">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-10">Quick Start</h2>
+
+    <div class="grid md:grid-cols-2 gap-10">
+
+      <!-- Install -->
+      <div class="border border-zinc-800 p-6 rounded">
+        <h3 class="text-xl font-semibold mb-4">1. Download & Setup</h3>
+        <p class="text-zinc-400 mb-4">Download the compiled library and header file.</p>
+        <pre class="bg-zinc-900 p-3 rounded"><code>project/
+ ├── main.c
+ ├── tensor.h
+ ├── libtensor.a   // compiled binary</code></pre>
+      </div>
+
+      <!-- Compile -->
+      <div class="border border-zinc-800 p-6 rounded">
+        <h3 class="text-xl font-semibold mb-4">2. Compile & Link</h3>
+        <p class="text-zinc-400 mb-4">Link your program with the compiled tensor library.</p>
+        <pre class="bg-zinc-900 p-3 rounded"><code>gcc main.c -L. -ltensor -o app
+./app</code></pre>
+      </div>
+
+      <!-- Include -->
+      <div class="border border-zinc-800 p-6 rounded">
+        <h3 class="text-xl font-semibold mb-4">3. Include in Code</h3>
+        <pre class="bg-zinc-900 p-3 rounded"><code>#include "tensor.h"</code></pre>
+      </div>
+
+      <!-- Use -->
+      <div class="border border-zinc-800 p-6 rounded">
+        <h3 class="text-xl font-semibold mb-4">4. Use in Project</h3>
+        <pre class="bg-zinc-900 p-3 rounded"><code>int shape[2] = {2,2};
+Tensor t = createTensor(shape, 2);
+
+int vals[4] = {1,2,3,4};
+setTensorData(&t, vals, 4);
+
+scalarMultiply(&t, 2);
+
+freeTensor(&t);</code></pre>
+      </div>
+
+    </div>
+
+    <p class="text-zinc-500 text-center mt-8">
+      For full usage and API details, visit the documentation page.
+    </p>
+  </div>
+</section>
+
+<!-- Roadmap -->
+<section class="py-24 px-6 border-t border-zinc-800">
+  <div class="max-w-5xl mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-10">Roadmap</h2>
+
+    <div class="grid md:grid-cols-2 gap-10">
+
+      <!-- Bug Fixes -->
+      <div class="border border-zinc-800 p-6 rounded">
+        <h3 class="text-xl font-semibold mb-4">Bug Fix Releases</h3>
+        <p class="text-zinc-500 mb-4">Patch updates for stability and fixes</p>
+
+        <ul class="text-zinc-400 space-y-2 text-left">
+          <li>v0.0.2 → Minor bug fixes and memory improvements</li>
+          <li>v0.0.3 → Stability fixes and edge-case handling</li>
+        </ul>
+      </div>
+
+      <!-- Feature Updates -->
+      <div class="border border-zinc-800 p-6 rounded">
+        <h3 class="text-xl font-semibold mb-4">Feature Updates</h3>
+        <p class="text-zinc-500 mb-4">New capabilities and improvements</p>
+
+        <ul class="text-zinc-400 space-y-2 text-left">
+          <li>v0.1.1 → New tensor operations and utilities</li>
+          <li>v0.1.2 → Performance optimizations and API expansion</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center text-zinc-600 text-sm py-8 border-t border-zinc-800">
+  © 2026 bhavyTr • Built by Yuvraj
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>bhavyTr Documentation</title>
+</head>
+<body class="bg-black text-white font-mono">
+
+<!-- Navbar -->
+<nav class="sticky top-0 z-50 w-full bg-black border-b border-zinc-800">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center space-x-4 group cursor-pointer">
+      <span class="text-white font-bold uppercase text-lg tracking-[0.3em]">BHAVYTR</span>
+      <span class="px-1.5 py-0.5 text-[10px] border border-zinc-700 text-zinc-500 rounded">v0.0.1</span>
+    </div>
+    <div class="flex items-center space-x-6 text-sm uppercase font-bold">
+      <a href="index.html" class="text-zinc-400 hover:text-white">Home</a>
+      <a href="documentation.html" class="text-zinc-400 hover:text-white">Documentation</a>
+      <a href="#download" class="text-zinc-400 hover:text-white">Download</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Header + Search -->
+<section class="text-center py-16">
+  <h1 class="text-4xl font-bold mb-4">Documentation</h1>
+  <p class="text-zinc-500 mb-8">Complete API reference for bhavyTr</p>
+  <div class="max-w-xl mx-auto">
+    <input id="searchInput" type="text" placeholder="Search API (e.g. createTensor)"
+      class="w-full bg-black border border-zinc-800 text-white py-3 px-4 focus:outline-none focus:border-white text-sm">
+  </div>
+</section>
+
+<!-- API -->
+<section class="max-w-5xl mx-auto px-6 space-y-16">
+
+  <!-- createTensor -->
+  <div class="api-block">
+    <h2 class="text-2xl font-bold">createTensor</h2>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>Tensor createTensor(int* shape, int ndims);</code></pre>
+    <p class="text-zinc-400 mt-2">Allocates memory and initializes tensor structure.</p>
+    <p class="text-zinc-500 mt-2">Parameters: shape (array), ndims (dimensions)</p>
+    <p class="text-zinc-500">Returns: Tensor</p>
+    <p class="text-zinc-500">Time: O(n)</p>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>int shape[2]={2,2};
+Tensor t=createTensor(shape,2);</code></pre>
+  </div>
+
+  <!-- setTensorData -->
+  <div class="api-block">
+    <h2 class="text-2xl font-bold">setTensorData</h2>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>void setTensorData(Tensor* t,int* values,int size);</code></pre>
+    <p class="text-zinc-400">Copies user data into tensor memory.</p>
+    <p class="text-zinc-500">Constraint: size must match total elements</p>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>int vals[4]={1,2,3,4};
+setTensorData(&t,vals,4);</code></pre>
+  </div>
+
+  <!-- getTensorIdx -->
+  <div class="api-block">
+    <h2 class="text-2xl font-bold">getTensorIdx</h2>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>int getTensorIdx(Tensor t,int* indices);</code></pre>
+    <p class="text-zinc-400">Maps multi-dimensional index to flat memory.</p>
+    <p class="text-zinc-500">Time: O(d)</p>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>int idx[2]={1,1};
+int flat=getTensorIdx(t,idx);
+int val=t.data[flat];</code></pre>
+  </div>
+
+  <!-- add -->
+  <div class="api-block">
+    <h2 class="text-2xl font-bold">addTensor</h2>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>Tensor addTensor(Tensor a,Tensor b);</code></pre>
+    <p class="text-zinc-400">Element-wise addition.</p>
+    <p class="text-zinc-500">Constraint: shapes must match</p>
+    <p class="text-zinc-500">Time: O(n)</p>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>// [1,2,3,4] + [5,6,7,8]
+// = [6,8,10,12]</code></pre>
+  </div>
+
+  <!-- sub -->
+  <div class="api-block">
+    <h2 class="text-2xl font-bold">subTensor</h2>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>Tensor subTensor(Tensor a,Tensor b);</code></pre>
+    <p class="text-zinc-400">Element-wise subtraction.</p>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>// [1,2,3,4] - [5,6,7,8]
+// = [-4,-4,-4,-4]</code></pre>
+  </div>
+
+  <!-- mul -->
+  <div class="api-block">
+    <h2 class="text-2xl font-bold">mulTensor</h2>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>Tensor mulTensor(Tensor a,Tensor b);</code></pre>
+    <p class="text-zinc-400">Element-wise multiplication.</p>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>// [1,2,3,4] * [5,6,7,8]
+// = [5,12,21,32]</code></pre>
+  </div>
+
+  <!-- scalar -->
+  <div class="api-block">
+    <h2 class="text-2xl font-bold">scalarMultiply</h2>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>void scalarMultiply(Tensor* t,int scalar);</code></pre>
+    <p class="text-zinc-400">In-place scalar multiplication.</p>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>// [1,2,3,4] * 2
+// = [2,4,6,8]</code></pre>
+  </div>
+
+  <!-- reshape -->
+  <div class="api-block">
+    <h2 class="text-2xl font-bold">reshapeTensor</h2>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>Tensor reshapeTensor(Tensor t,int* newShape,int newDims);</code></pre>
+    <p class="text-zinc-400">Changes shape without changing data.</p>
+    <p class="text-zinc-500">Constraint: total elements must match</p>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>// 2x2 -> 1D
+// [2,4,6,8]</code></pre>
+  </div>
+
+  <!-- free -->
+  <div class="api-block">
+    <h2 class="text-2xl font-bold">freeTensor</h2>
+    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>void freeTensor(Tensor* t);</code></pre>
+    <p class="text-zinc-400">Releases memory.</p>
+  </div>
+
+</section>
+
+<!-- Complete End-to-End Example -->
+<section class="max-w-5xl mx-auto px-6 py-16">
+  <h2 class="text-2xl font-bold mb-4">Complete End-to-End Example</h2>
+  <p class="text-zinc-400 mb-6">Create → set data → index → operations → reshape → free</p>
+  <pre class="bg-zinc-900 p-4 rounded"><code>#include "tensor.h"
+
+int main() {
+  int shape[2] = {2, 2};
+
+  // Create tensors
+  Tensor a = createTensor(shape, 2);
+  Tensor b = createTensor(shape, 2);
+
+  // Set data
+  int valsA[4] = {1, 2, 3, 4};
+  int valsB[4] = {5, 6, 7, 8};
+  setTensorData(&a, valsA, 4);
+  setTensorData(&b, valsB, 4);
+
+  // Index access
+  int idx[2] = {1, 1};
+  int flat = getTensorIdx(a, idx);
+  int value = a.data[flat]; // 4
+
+  // Operations
+  Tensor c = addTensor(a, b); // [6,8,10,12]
+  Tensor d = subTensor(a, b); // [-4,-4,-4,-4]
+  Tensor e = mulTensor(a, b); // [5,12,21,32]
+
+  // In-place scalar
+  scalarMultiply(&a, 2); // [2,4,6,8]
+
+  // Reshape
+  int newShape[1] = {4};
+  Tensor f = reshapeTensor(a, newShape, 1); // [2,4,6,8]
+
+  // Free memory
+  freeTensor(&a);
+  freeTensor(&b);
+  freeTensor(&c);
+  freeTensor(&d);
+  freeTensor(&e);
+  freeTensor(&f);
+
+  return 0;
+}</code></pre>
+</section>
+
+<!-- Script -->
+<script>
+function searchAPI(){
+  const input=document.getElementById('searchInput').value.toLowerCase();
+  const blocks=document.querySelectorAll('.api-block');
+  blocks.forEach(b=>{
+    b.style.display=b.innerText.toLowerCase().includes(input)?'block':'none';
+  });
+}
+document.getElementById('searchInput').addEventListener('keypress',e=>{
+  if(e.key==='Enter')searchAPI();
+});
+</script>
+
+<footer class="text-center text-zinc-600 text-sm py-6 border-t border-zinc-800">
+  © 2026 bhavyTr Docs
+</footer>
+
+</body>
+</html>
