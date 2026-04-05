@@ -1,196 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <title>bhavyTr Documentation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation | BhavyTr v1.0.1P</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        pre, code { font-family: 'Fira Code', monospace; }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
 </head>
-<body class="bg-black text-white font-mono">
+<body class="bg-slate-50 text-slate-900">
 
-<!-- Navbar -->
-<nav class="sticky top-0 z-50 w-full bg-black border-b border-zinc-800">
-  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    <div class="flex items-center space-x-4 group cursor-pointer">
-      <span class="text-white font-bold uppercase text-lg tracking-[0.3em]">BHAVYTR</span>
-      <span class="px-1.5 py-0.5 text-[10px] border border-zinc-700 text-zinc-500 rounded">v0.0.1</span>
+    <div class="flex">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition duration-200 ease-in-out z-40 w-64 bg-white border-r border-slate-200 h-screen sticky top-0 overflow-y-auto">
+            <div class="p-8">
+                <a href="index.html" class="text-2xl font-bold tracking-tighter text-blue-600 flex items-center gap-2">
+                    <div class="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-white text-[10px]">B</div>
+                    BhavyTr
+                </a>
+                <p class="text-[10px] text-slate-400 font-mono mt-1 uppercase tracking-widest">v1.0.1P Docs</p>
+            </div>
+            
+            <nav class="px-4 space-y-1 text-sm">
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Getting Started</p>
+                <a href="#overview" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">1. Overview</a>
+                <a href="#architecture" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">2. Architecture</a>
+                <a href="#installation" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">5. Installation</a>
+                
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-8 mb-2">API Reference</p>
+                <a href="#create-tensor" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors italic font-mono">createTensor()</a>
+                <a href="#free-tensor" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors italic font-mono">freeTensor()</a>
+                
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-8 mb-2">Release Info</p>
+                <a href="#limitations" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">7. Limitations</a>
+                <a href="#roadmap" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">9. Roadmap</a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 min-w-0">
+            <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200">
+                <div class="max-w-4xl mx-auto px-6 py-4">
+                    <div class="relative">
+                        <input type="text" id="docSearch" onkeyup="searchDocs()" 
+                               class="w-full bg-slate-100 border-none rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-blue-500 transition-all text-sm shadow-inner" 
+                               placeholder="Search functions, logic, or setup commands...">
+                        <svg class="w-5 h-5 text-slate-400 absolute left-4 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </header>
+
+            <div id="content-wrapper" class="max-w-4xl mx-auto p-6 md:p-12 space-y-20">
+                
+                <section id="overview" class="doc-section scroll-mt-28">
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-6">1. Product Overview</h2>
+                    <div class="prose prose-slate text-slate-600 leading-relaxed">
+                        <p class="text-lg">BhavyTr v1.0.1P is a <strong>unified tensor computation library</strong> built in C. It bridges the gap between high-performance backends and intuitive frontend syntax.</p>
+                        <div class="bg-blue-600 text-white p-6 rounded-2xl mt-6 shadow-lg shadow-blue-100">
+                            <h4 class="font-bold mb-2">The Core Concept</h4>
+                            <p class="text-sm opacity-90">Unlike libraries that force you to define shapes manually, BhavyTr uses an integrated parser to detect dimensions directly from the <code>L[...]</code> macro syntax.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="architecture" class="doc-section scroll-mt-28">
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-6">2. Architecture</h2>
+                    <div class="bg-slate-900 rounded-2xl p-8 border border-slate-700 shadow-xl">
+                        <div class="flex items-center gap-4 text-blue-400 font-mono text-sm">
+                            <span class="text-slate-500 italic">// Logic Flow</span>
+                        </div>
+                        <div class="mt-4 space-y-4 font-mono text-sm">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-slate-800 text-slate-300 px-2 py-1 rounded">User Code</span>
+                                <span class="text-slate-600">→</span>
+                                <span class="text-blue-300 italic">createTensor(L[[...]])</span>
+                            </div>
+                            <div class="flex items-center gap-3 ml-8">
+                                <span class="bg-slate-800 text-slate-300 px-2 py-1 rounded">Parser Layer</span>
+                                <span class="text-slate-600">→</span>
+                                <span class="text-blue-300">Detects Rank & Shape</span>
+                            </div>
+                            <div class="flex items-center gap-3 ml-16">
+                                <span class="bg-slate-800 text-slate-300 px-2 py-1 rounded">Core Engine</span>
+                                <span class="text-slate-600">→</span>
+                                <span class="text-blue-300">Allocates Contiguous Memory</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="create-tensor" class="doc-section scroll-mt-28">
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="text-blue-600">4.1</span> createTensor
+                    </h2>
+                    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                        <p class="text-slate-600 mb-6 leading-relaxed">
+                            Initialize a tensor using the <code>L</code> macro. The library supports 1D vectors and 2D matrices in the current version.
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-slate-900 p-4 rounded-xl">
+                                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest block mb-2">1D Syntax</span>
+                                <code class="text-blue-400 text-sm italic">createTensor("L[1, 2, 3]");</code>
+                            </div>
+                            <div class="bg-slate-900 p-4 rounded-xl">
+                                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest block mb-2">2D Syntax</span>
+                                <code class="text-blue-400 text-sm italic">createTensor("L[[1,2],[3,4]]");</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="free-tensor" class="doc-section scroll-mt-28">
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="text-blue-600">4.2</span> freeTensor
+                    </h2>
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center text-amber-600">⚠️</div>
+                            <h4 class="font-bold text-amber-900">Manual Memory Management</h4>
+                        </div>
+                        <p class="text-amber-800/80 text-sm mb-4">
+                            Tensors are allocated on the heap. You must free them to prevent memory leaks, especially when working with loops or recursive AI logic.
+                        </p>
+                        <pre class="bg-slate-900 text-slate-300 p-4 rounded-xl text-xs leading-6">
+<span class="text-slate-500">// Requires the address of the tensor object</span>
+freeTensor(&myTensor);</pre>
+                    </div>
+                </section>
+
+                <section id="installation" class="doc-section scroll-mt-28">
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-6">5. Installation</h2>
+                    <div class="space-y-4">
+                        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden group">
+                            <div class="bg-slate-50 px-4 py-2 text-[10px] font-bold text-slate-400 border-b uppercase flex justify-between">
+                                <span>GCC (Linux/MinGW)</span>
+                                <span class="group-hover:text-blue-500 transition-colors">Copy</span>
+                            </div>
+                            <pre class="p-4 text-sm text-blue-600 font-bold bg-white overflow-x-auto">gcc main.c -Iinclude -Llib/gcc -lbhavytr -o app</pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="roadmap" class="doc-section scroll-mt-28">
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-6">9. Roadmap</h2>
+                    <div class="grid sm:grid-cols-3 gap-6">
+                        <div class="relative p-6 bg-white border border-slate-200 rounded-2xl">
+                            <div class="absolute top-0 right-0 p-3 text-[10px] font-bold text-blue-500">Q2 2026</div>
+                            <h5 class="font-bold text-slate-900 mb-2">Short-Term</h5>
+                            <p class="text-xs text-slate-500 leading-relaxed">Float & Double support, strict parser validation.</p>
+                        </div>
+                        <div class="relative p-6 bg-white border border-slate-200 rounded-2xl">
+                            <div class="absolute top-0 right-0 p-3 text-[10px] font-bold text-indigo-500">Q4 2026</div>
+                            <h5 class="font-bold text-slate-900 mb-2">Mid-Term</h5>
+                            <p class="text-xs text-slate-500 leading-relaxed">Python bindings & JavaScript (WASM) integration.</p>
+                        </div>
+                        <div class="relative p-6 bg-white border border-slate-200 rounded-2xl">
+                            <div class="absolute top-0 right-0 p-3 text-[10px] font-bold text-purple-500">2027</div>
+                            <h5 class="font-bold text-slate-900 mb-2">Long-Term</h5>
+                            <p class="text-xs text-slate-500 leading-relaxed">Custom tensor transpiler & GPU acceleration.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div id="noResults" class="hidden py-20 text-center">
+                    <div class="text-5xl mb-4">🔍</div>
+                    <p class="text-slate-500 font-medium text-lg">No matches for that query in v1.0.1P docs.</p>
+                    <p class="text-slate-400 text-sm mt-1">Try searching for 'freeTensor', 'GCC', or 'Roadmap'.</p>
+                </div>
+
+            </div>
+        </main>
     </div>
-    <div class="flex items-center space-x-6 text-sm uppercase font-bold">
-      <a href="index.html" class="text-zinc-400 hover:text-white">Home</a>
-      <a href="http://imohitsheoran.github.io/BhavyWeb/Documentation.html" class="text-zinc-400 hover:text-white">Documentation</a>
-      <a href="http://imohitsheoran.github.io/BhavyWeb/Download.html" class="text-zinc-400 hover:text-white">Download</a>
-    </div>
-  </div>
-</nav>
 
-<!-- Header + Search -->
-<section class="text-center py-16">
-  <h1 class="text-4xl font-bold mb-4">Documentation</h1>
-  <p class="text-zinc-500 mb-8">Complete API reference for bhavyTr</p>
-  <div class="max-w-xl mx-auto">
-    <input id="searchInput" type="text" placeholder="Search API (e.g. createTensor)"
-      class="w-full bg-black border border-zinc-800 text-white py-3 px-4 focus:outline-none focus:border-white text-sm">
-  </div>
-</section>
+    <script>
+        function searchDocs() {
+            const input = document.getElementById('docSearch').value.toLowerCase();
+            const sections = document.getElementsByClassName('doc-section');
+            const noResults = document.getElementById('noResults');
+            let found = 0;
 
-<!-- API -->
-<section class="max-w-5xl mx-auto px-6 space-y-16">
+            for (let i = 0; i < sections.length; i++) {
+                const text = sections[i].innerText.toLowerCase();
+                if (text.includes(input)) {
+                    sections[i].style.display = "block";
+                    found++;
+                } else {
+                    sections[i].style.display = "none";
+                }
+            }
 
-  <!-- createTensor -->
-  <div class="api-block">
-    <h2 class="text-2xl font-bold">createTensor</h2>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>Tensor createTensor(int* shape, int ndims);</code></pre>
-    <p class="text-zinc-400 mt-2">Allocates memory and initializes tensor structure.</p>
-    <p class="text-zinc-500 mt-2">Parameters: shape (array), ndims (dimensions)</p>
-    <p class="text-zinc-500">Returns: Tensor</p>
-    <p class="text-zinc-500">Time: O(n)</p>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>int shape[2]={2,2};
-Tensor t=createTensor(shape,2);</code></pre>
-  </div>
-
-  <!-- setTensorData -->
-  <div class="api-block">
-    <h2 class="text-2xl font-bold">setTensorData</h2>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>void setTensorData(Tensor* t,int* values,int size);</code></pre>
-    <p class="text-zinc-400">Copies user data into tensor memory.</p>
-    <p class="text-zinc-500">Constraint: size must match total elements</p>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>int vals[4]={1,2,3,4};
-setTensorData(&t,vals,4);</code></pre>
-  </div>
-
-  <!-- getTensorIdx -->
-  <div class="api-block">
-    <h2 class="text-2xl font-bold">getTensorIdx</h2>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>int getTensorIdx(Tensor t,int* indices);</code></pre>
-    <p class="text-zinc-400">Maps multi-dimensional index to flat memory.</p>
-    <p class="text-zinc-500">Time: O(d)</p>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>int idx[2]={1,1};
-int flat=getTensorIdx(t,idx);
-int val=t.data[flat];</code></pre>
-  </div>
-
-  <!-- add -->
-  <div class="api-block">
-    <h2 class="text-2xl font-bold">addTensor</h2>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>Tensor addTensor(Tensor a,Tensor b);</code></pre>
-    <p class="text-zinc-400">Element-wise addition.</p>
-    <p class="text-zinc-500">Constraint: shapes must match</p>
-    <p class="text-zinc-500">Time: O(n)</p>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>// [1,2,3,4] + [5,6,7,8]
-// = [6,8,10,12]</code></pre>
-  </div>
-
-  <!-- sub -->
-  <div class="api-block">
-    <h2 class="text-2xl font-bold">subTensor</h2>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>Tensor subTensor(Tensor a,Tensor b);</code></pre>
-    <p class="text-zinc-400">Element-wise subtraction.</p>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>// [1,2,3,4] - [5,6,7,8]
-// = [-4,-4,-4,-4]</code></pre>
-  </div>
-
-  <!-- mul -->
-  <div class="api-block">
-    <h2 class="text-2xl font-bold">mulTensor</h2>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>Tensor mulTensor(Tensor a,Tensor b);</code></pre>
-    <p class="text-zinc-400">Element-wise multiplication.</p>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>// [1,2,3,4] * [5,6,7,8]
-// = [5,12,21,32]</code></pre>
-  </div>
-
-  <!-- scalar -->
-  <div class="api-block">
-    <h2 class="text-2xl font-bold">scalarMultiply</h2>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>void scalarMultiply(Tensor* t,int scalar);</code></pre>
-    <p class="text-zinc-400">In-place scalar multiplication.</p>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>// [1,2,3,4] * 2
-// = [2,4,6,8]</code></pre>
-  </div>
-
-  <!-- reshape -->
-  <div class="api-block">
-    <h2 class="text-2xl font-bold">reshapeTensor</h2>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>Tensor reshapeTensor(Tensor t,int* newShape,int newDims);</code></pre>
-    <p class="text-zinc-400">Changes shape without changing data.</p>
-    <p class="text-zinc-500">Constraint: total elements must match</p>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>// 2x2 -> 1D
-// [2,4,6,8]</code></pre>
-  </div>
-
-  <!-- free -->
-  <div class="api-block">
-    <h2 class="text-2xl font-bold">freeTensor</h2>
-    <pre class="bg-zinc-900 p-3 rounded mt-2"><code>void freeTensor(Tensor* t);</code></pre>
-    <p class="text-zinc-400">Releases memory.</p>
-  </div>
-
-</section>
-
-<!-- Complete End-to-End Example -->
-<section class="max-w-5xl mx-auto px-6 py-16">
-  <h2 class="text-2xl font-bold mb-4">Complete End-to-End Example</h2>
-  <p class="text-zinc-400 mb-6">Create → set data → index → operations → reshape → free</p>
-  <pre class="bg-zinc-900 p-4 rounded"><code>#include "tensor.h"
-
-int main() {
-  int shape[2] = {2, 2};
-
-  // Create tensors
-  Tensor a = createTensor(shape, 2);
-  Tensor b = createTensor(shape, 2);
-
-  // Set data
-  int valsA[4] = {1, 2, 3, 4};
-  int valsB[4] = {5, 6, 7, 8};
-  setTensorData(&a, valsA, 4);
-  setTensorData(&b, valsB, 4);
-
-  // Index access
-  int idx[2] = {1, 1};
-  int flat = getTensorIdx(a, idx);
-  int value = a.data[flat]; // 4
-
-  // Operations
-  Tensor c = addTensor(a, b); // [6,8,10,12]
-  Tensor d = subTensor(a, b); // [-4,-4,-4,-4]
-  Tensor e = mulTensor(a, b); // [5,12,21,32]
-
-  // In-place scalar
-  scalarMultiply(&a, 2); // [2,4,6,8]
-
-  // Reshape
-  int newShape[1] = {4};
-  Tensor f = reshapeTensor(a, newShape, 1); // [2,4,6,8]
-
-  // Free memory
-  freeTensor(&a);
-  freeTensor(&b);
-  freeTensor(&c);
-  freeTensor(&d);
-  freeTensor(&e);
-  freeTensor(&f);
-
-  return 0;
-}</code></pre>
-</section>
-
-<!-- Script -->
-<script>
-function searchAPI(){
-  const input=document.getElementById('searchInput').value.toLowerCase();
-  const blocks=document.querySelectorAll('.api-block');
-  blocks.forEach(b=>{
-    b.style.display=b.innerText.toLowerCase().includes(input)?'block':'none';
-  });
-}
-document.getElementById('searchInput').addEventListener('keypress',e=>{
-  if(e.key==='Enter')searchAPI();
-});
-</script>
-
-<footer class="text-center text-zinc-600 text-sm py-6 border-t border-zinc-800">
-  © 2026 bhavyTr Docs
-</footer>
-
+            noResults.classList.toggle('hidden', found > 0);
+        }
+    </script>
 </body>
 </html>
