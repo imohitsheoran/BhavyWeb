@@ -191,6 +191,19 @@ printTensor(c);
     <footer class="text-center py-8 text-gray-500 border-t border-gray-800">
         <p>© 2026 BHAVYANSH TECHNOLOGY</p>
     </footer>
+        <script>
+const btn = document.getElementById("menuBtn");
+const menu = document.getElementById("mobileMenu");
+
+btn.addEventListener("click", () => {
+  if (menu.style.maxHeight && menu.style.maxHeight !== "0px") {
+    menu.style.maxHeight = "0px";
+  } else {
+    menu.style.maxHeight = menu.scrollHeight + "px";
+  }
+});
+</script>
+
 
 </body>
 
