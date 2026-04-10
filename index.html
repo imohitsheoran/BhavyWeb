@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BhavyTr | Lightweight Tensor Engine in C</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- ✅ RESPONSIVE FIX CSS -->
+  <style>
+    /* Desktop menu default */
+    .desktop-menu {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    /* Hide desktop on mobile */
+    @media (max-width: 768px) {
+      .desktop-menu {
+        display: none !important;
+      }
+    }
+
+    /* Mobile menu base */
+    #mobileMenu {
+      max-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #020617;
+      border-top: 1px solid #1f2937;
+      transition: max-height 0.3s ease;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-950 text-gray-200">
+
+<!-- 🔝 NAVBAR -->
+<nav id="navbar" class="sticky top-0 z-50 bg-gray-950/80 backdrop-blur border-b border-gray-800">
+
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+
+    <!-- Logo -->
+    <h1 class="text-xl font-bold text-white">BhavyTr</h1>
+
+    <!-- Desktop Menu (FIXED) -->
+    <div class="desktop-menu">
+
+      <a href="index.html" class=" text-emerald-400 hover:text-emerald-400 transition">Home</a>
+      <a href="docs.html" class="text-gray-300 hover:text-emerald-400 transition">Docs</a>
+      <a href="download.html" class="text-gray-300 font-semibold hover:text-emerald-300 transition">
+        Download
+      </a>
+
+      <a href="https://github.com/imohitsheoran" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm transition" target="_blank">
+        GitHub
+      </a>
+
+    </div>
+
+    <!-- Mobile Button -->
+    <button id="menuBtn" class="text-white text-3xl md:hidden">
+      ☰
+    </button>
+
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu">
+
+    <a href="index.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Home</a>
+    <a href="docs.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Docs</a>
+    <a href="download.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Download</a>
+    <a href="https://github.com/imohitsheoran" class="px-6 py-3 text-gray-300 hover:text-emerald-400" target="_blank">GitHub</a>
+
+  </div>
+
+</nav>
+<!-- 🚀 Hero Section -->
+<section class="text-center py-24 px-6">
+
+  <h1 class="text-4xl md:text-6xl font-bold bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
+    BhavyTr
+  </h1>
+
+  <p class="mt-4 text-emerald-400 text-sm uppercase tracking-wide">
+    High Performance • Modular • C-Based
+  </p>
+
+  <p class="mt-6 text-lg text-gray-400 max-w-2xl mx-auto">
+    Lightweight Tensor Engine in C for High Performance Computing.
+  </p>
+
+  <div class="mt-10 flex justify-center gap-4 flex-wrap">
+
+    <a href="download.html"
+       class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg transition">
+      Download
+    </a>
+
+    <a href="docs.html"
+       class="border border-gray-700 hover:border-emerald-400 px-6 py-3 rounded-lg transition">
+      Documentation
+    </a>
+
+  </div>
+
+</section>
+
+<!-- ✨ About -->
+<section class="py-20 px-6 max-w-4xl mx-auto text-center">
+
+  <h2 class="text-3xl font-semibold text-white mb-6">
+    Why BhavyTr?
+  </h2>
+
+  <p class="text-lg text-gray-400 leading-relaxed">
+    BhavyTr is a lightweight and high-performance tensor engine written in C.
+    It is designed for modular architecture with a clean separation between
+    user layer, parser, and core engine, making it efficient and scalable.
+  </p>
+
+</section>
+
+<!-- ⚡ Features -->
+<section class="py-20 px-6 max-w-6xl mx-auto">
+
+  <h2 class="text-3xl font-semibold text-white text-center mb-12">
+    Features
+  </h2>
+
+  <div class="grid md:grid-cols-3 gap-8">
+
+    <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl">
+      <h3 class="text-xl font-semibold text-white mb-2">⚡ High Performance</h3>
+      <p class="text-gray-400">Built in C for maximum speed and efficiency.</p>
+    </div>
+
+    <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl">
+      <h3 class="text-xl font-semibold text-white mb-2">🧩 Modular Design</h3>
+      <p class="text-gray-400">Clean separation of parser and core engine.</p>
+    </div>
+
+    <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl">
+      <h3 class="text-xl font-semibold text-white mb-2">🔌 Easy Integration</h3>
+      <p class="text-gray-400">Simple API for C projects.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- 🧱 Architecture -->
+<section class="py-20 px-6 bg-gray-900 border-y border-gray-800 text-center">
+
+  <h2 class="text-3xl font-semibold text-white mb-6">
+    Architecture
+  </h2>
+
+  <pre class="text-emerald-400 bg-black p-6 rounded-xl border border-gray-800">
+User Code → Parser → Core Engine → Compute Layer
+  </pre>
+
+</section>
+
+<!-- 💻 Example -->
+<section class="py-20 px-6 max-w-4xl mx-auto">
+
+  <h2 class="text-3xl font-semibold text-white mb-6 text-center">
+    Quick Example
+  </h2>
+
+  <pre class="bg-black text-emerald-400 p-6 rounded-xl border border-gray-800 overflow-x-auto">
+#include "BhavyTr.h"
+
+int main() {
+    Tensor *t = createTensor("[[1,2],[3,4]]");
+    printTensor(t);
+}
+  </pre>
+
+</section>
+
+<!-- 📦 CTA -->
+<section class="text-center py-20 px-6 border-t border-gray-800">
+
+  <h2 class="text-3xl font-bold text-white">
+    Get Started with BhavyTr
+  </h2>
+
+  <div class="mt-6">
+    <a href="download.html"
+       class="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg">
+      Download Now
+    </a>
+  </div>
+
+</section>
+
+<!-- 👨‍💻 Footer -->
+<footer class="text-center py-10 text-gray-500 border-t border-gray-800">
+  © 2026 BHAVYANSH TECHNOLOGY
+</footer>
+
+<!-- 🔥 MOBILE MENU SCRIPT -->
+<script>
+const btn = document.getElementById("menuBtn");
+const menu = document.getElementById("mobileMenu");
+
+btn.addEventListener("click", () => {
+  if (menu.style.maxHeight && menu.style.maxHeight !== "0px") {
+    menu.style.maxHeight = "0px";
+  } else {
+    menu.style.maxHeight = menu.scrollHeight + "px";
+  }
+});
+</script>
+
+</body>
+</html>

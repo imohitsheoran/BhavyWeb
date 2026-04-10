@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download BhavyTr</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- ✅ RESPONSIVE FIX CSS -->
+  <style>
+    /* Desktop menu default */
+    .desktop-menu {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    /* Hide desktop on mobile */
+    @media (max-width: 768px) {
+      .desktop-menu {
+        display: none !important;
+      }
+    }
+
+    /* Mobile menu base */
+    #mobileMenu {
+      max-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #020617;
+      border-top: 1px solid #1f2937;
+      transition: max-height 0.3s ease;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-950 text-gray-200">
+
+<!-- 🔝 NAVBAR -->
+<nav id="navbar" class="sticky top-0 z-50 bg-gray-950/80 backdrop-blur border-b border-gray-800">
+
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+
+    <!-- Logo -->
+    <h1 class="text-xl font-bold text-white">BhavyTr</h1>
+
+    <!-- Desktop Menu (FIXED) -->
+    <div class="desktop-menu">
+
+      <a href="index.html" class="text-gray-300 hover:text-emerald-400 transition">Home</a>
+      <a href="docs.html" class="text-gray-300 hover:text-emerald-400 transition">Docs</a>
+      <a href="download.html" class="text-emerald-400 font-semibold hover:text-emerald-300 transition">
+        Download
+      </a>
+
+      <a href="https://github.com/imohitsheoran" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm transition" target="_blank">
+        GitHub
+      </a>
+
+    </div>
+
+    <!-- Mobile Button -->
+    <button id="menuBtn" class="text-white text-3xl md:hidden">
+      ☰
+    </button>
+
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu">
+
+    <a href="index.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Home</a>
+    <a href="docs.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Docs</a>
+    <a href="download.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Download</a>
+    <a href="https://github.com/imohitsheoran" class="px-6 py-3 text-gray-300 hover:text-emerald-400" target="_blank">GitHub</a>
+
+  </div>
+
+</nav>
+
+<!-- 📦 MAIN -->
+<section class="text-center py-24 px-6">
+
+  <h1 class="text-4xl md:text-5xl font-bold text-white">
+    Download BhavyTr
+  </h1>
+
+  <p class="mt-4 text-gray-400">
+    Get the latest version and start building high-performance tensor applications.
+  </p>
+
+  <p class="mt-2 text-emerald-400 font-semibold">
+    Version: v1.0.1P
+  </p>
+
+  <div class="mt-10 flex justify-center gap-4 flex-wrap">
+
+<a href="https://github.com/imohitsheoran/BhavyTr-v1.0.1/archive/refs/tags/v1.0.1.zip" download
+   class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg transition">
+  Download ZIP
+</a>
+    <a href="https://github.com/imohitsheoran/BhavyTr-v1.0.1/releases/tag/v1.0.1/BhavyTr-v1.0.1.zip" class="border border-gray-700 hover:border-emerald-400 px-6 py-3 rounded-lg transition">
+      GitHub Releases
+    </a>
+
+  </div>
+
+</section>
+
+<!-- ⚙️ INSTALL -->
+<section class="py-20 px-6 max-w-4xl mx-auto">
+
+  <h2 class="text-3xl font-semibold text-white mb-6">Quick Installation</h2>
+
+  <ol class="list-decimal pl-6 text-gray-400 space-y-3">
+    <li>Download ZIP or clone repo</li>
+    <li>Extract into project</li>
+    <li>Include BhavyTr.h</li>
+    <li>Compile using GCC / MSVC</li>
+  </ol>
+
+  <pre class="mt-6 bg-black text-emerald-400 p-6 rounded-xl border border-gray-800 overflow-x-auto">
+#include "BhavyTr.h"
+
+int main() {
+    Tensor *t = createTensor("[[1,2],[3,4]]");
+    printTensor(t);
+}
+  </pre>
+
+</section>
+
+<!-- 📝 RELEASE -->
+<section class="py-20 px-6 bg-gray-900 border-y border-gray-800">
+
+  <div class="max-w-4xl mx-auto">
+
+    <h2 class="text-3xl font-semibold text-white mb-6">Release Notes</h2>
+
+    <div class="bg-gray-950 border border-gray-800 rounded-xl p-6">
+
+      <h3 class="text-xl font-semibold text-emerald-400 mb-3">v1.0.1P</h3>
+
+      <ul class="list-disc pl-6 text-gray-400 space-y-2">
+        <li>Initial stable release</li>
+        <li>Tensor engine core added</li>
+        <li>Parser integrated</li>
+        <li>Basic operations supported</li>
+      </ul>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- 🚀 CTA -->
+<section class="text-center py-20 px-6">
+
+  <h2 class="text-3xl font-bold text-white">Start Building with BhavyTr</h2>
+
+  <p class="mt-4 text-gray-400">
+    Explore documentation and integrate BhavyTr into your projects today.
+  </p>
+
+  <div class="mt-8">
+    <a href="docs.html" class="border border-gray-700 hover:border-emerald-400 px-6 py-3 rounded-lg transition">
+      Read Documentation
+    </a>
+  </div>
+
+</section>
+
+<!-- 👨‍💻 FOOTER -->
+<footer class="text-center py-10 text-gray-500 border-t border-gray-800">
+  <p>© 2026 BHAVYANSH TECHNOLOGY</p>
+</footer>
+
+<!-- 🔥 MOBILE TOGGLE -->
+<script>
+const btn = document.getElementById("menuBtn");
+const menu = document.getElementById("mobileMenu");
+
+btn.addEventListener("click", () => {
+  if (menu.style.maxHeight && menu.style.maxHeight !== "0px") {
+    menu.style.maxHeight = "0px";
+  } else {
+    menu.style.maxHeight = menu.scrollHeight + "px";
+  }
+});
+</script>
+
+</body>
+</html>
