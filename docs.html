@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BhavyTr Docs</title>
+    <title>Download BhavyTr</title>
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <!-- ✅ RESPONSIVE FIX CSS -->
@@ -49,14 +50,15 @@
             <!-- Desktop Menu (FIXED) -->
             <div class="desktop-menu">
 
-                <a href="index.html" class=" text-gray-300 hover:text-emerald-400 transition">Home</a>
-                <a href="docs.html" class=" text-emerald-400 hover:text-emerald-400 transition">Docs</a>
-                <a href="download.html" class="text-gray-300 font-semibold hover:text-emerald-300 transition">
+                <a href="index.html" class="text-gray-300 hover:text-emerald-400 transition">Home</a>
+                <a href="docs.html" class="text-gray-300 hover:text-emerald-400 transition">Docs</a>
+                <a href="download.html" class="text-emerald-400 font-semibold hover:text-emerald-300 transition">
                     Download
                 </a>
 
                 <a href="https://github.com/imohitsheoran"
-                    class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm transition" target="_blank">
+                    class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm transition"
+                    target="_blank">
                     GitHub
                 </a>
 
@@ -75,7 +77,8 @@
             <a href="index.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Home</a>
             <a href="docs.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Docs</a>
             <a href="download.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Download</a>
-            <a href="https://github.com/imohitsheoran" class="px-6 py-3 text-gray-300 hover:text-emerald-400" target="_blank">GitHub</a>
+            <a href="https://github.com/imohitsheoran" class="px-6 py-3 text-gray-300 hover:text-emerald-400"
+                target="_blank">GitHub</a>
 
         </div>
 
@@ -191,19 +194,19 @@ printTensor(c);
     <footer class="text-center py-8 text-gray-500 border-t border-gray-800">
         <p>© 2026 BHAVYANSH TECHNOLOGY</p>
     </footer>
-        <script>
-const btn = document.getElementById("menuBtn");
-const menu = document.getElementById("mobileMenu");
+    <!-- 🔥 MOBILE TOGGLE -->
+    <script>
+        const btn = document.getElementById("menuBtn");
+        const menu = document.getElementById("mobileMenu");
 
-btn.addEventListener("click", () => {
-  if (menu.style.maxHeight && menu.style.maxHeight !== "0px") {
-    menu.style.maxHeight = "0px";
-  } else {
-    menu.style.maxHeight = menu.scrollHeight + "px";
-  }
-});
-</script>
-
+        btn.addEventListener("click", () => {
+            if (menu.style.maxHeight && menu.style.maxHeight !== "0px") {
+                menu.style.maxHeight = "0px";
+            } else {
+                menu.style.maxHeight = menu.scrollHeight + "px";
+            }
+        });
+    </script>
 
 </body>
 
