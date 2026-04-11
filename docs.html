@@ -4,27 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download BhavyTr</title>
+    <title>BhavyTr Documentation</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <!-- ✅ RESPONSIVE FIX CSS -->
     <style>
-        /* Desktop menu default */
         .desktop-menu {
             display: flex;
             gap: 32px;
             align-items: center;
         }
 
-        /* Hide desktop on mobile */
         @media (max-width: 768px) {
             .desktop-menu {
                 display: none !important;
             }
         }
 
-        /* Mobile menu base */
         #mobileMenu {
             max-height: 0;
             overflow: hidden;
@@ -39,115 +35,123 @@
 
 <body class="bg-gray-950 text-gray-200">
 
-    <!-- 🔝 NAVBAR -->
-    <nav id="navbar" class="sticky top-0 z-50 bg-gray-950/80 backdrop-blur border-b border-gray-800">
+<!-- NAVBAR -->
+<nav class="sticky top-0 z-50 bg-gray-950/80 backdrop-blur border-b border-gray-800">
 
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
 
-            <!-- Logo -->
-            <h1 class="text-xl font-bold text-white">BhavyTr</h1>
+        <h1 class="text-xl font-bold text-white">BhavyTr</h1>
 
-            <!-- Desktop Menu (FIXED) -->
-            <div class="desktop-menu">
+        <div class="desktop-menu">
+            <a href="index.html" class="text-gray-300 hover:text-emerald-400">Home</a>
+            <a href="docs.html" class="text-emerald-400 font-semibold">Docs</a>
+            <a href="download.html" class="text-gray-300 hover:text-emerald-400">Download</a>
 
-                <a href="index.html" class="text-gray-300 hover:text-emerald-400 transition">Home</a>
-                <a href="docs.html" class="text-gray-300 hover:text-emerald-400 transition">Docs</a>
-                <a href="download.html" class="text-emerald-400 font-semibold hover:text-emerald-300 transition">
-                    Download
-                </a>
-
-                <a href="https://github.com/imohitsheoran"
-                    class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm transition"
-                    target="_blank">
-                    GitHub
-                </a>
-
-            </div>
-
-            <!-- Mobile Button -->
-            <button id="menuBtn" class="text-white text-3xl md:hidden">
-                ☰
-            </button>
-
+            <a href="https://github.com/imohitsheoran"
+               class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm"
+               target="_blank">
+                GitHub
+            </a>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobileMenu">
+        <button id="menuBtn" class="text-white text-3xl md:hidden">☰</button>
 
-            <a href="index.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Home</a>
-            <a href="docs.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Docs</a>
-            <a href="download.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Download</a>
-            <a href="https://github.com/imohitsheoran" class="px-6 py-3 text-gray-300 hover:text-emerald-400"
-                target="_blank">GitHub</a>
+    </div>
 
-        </div>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu">
+        <a href="index.html" class="px-6 py-3">Home</a>
+        <a href="docs.html" class="px-6 py-3">Docs</a>
+        <a href="download.html" class="px-6 py-3">Download</a>
+        <a href="https://github.com/imohitsheoran" class="px-6 py-3">GitHub</a>
+    </div>
 
-    </nav>
-    <div class="flex max-w-7xl mx-auto">
+</nav>
 
-        <!-- 📚 Sidebar -->
-        <aside class="w-64 hidden md:block border-r border-gray-800 p-6">
-            <h2 class="text-white font-semibold mb-4">Documentation</h2>
+<div class="flex max-w-7xl mx-auto">
 
-            <ul class="space-y-3 text-sm">
-                <li><a href="#install" class="hover:text-emerald-400">Installation</a></li>
-                <li><a href="#structure" class="hover:text-emerald-400">Folder Structure</a></li>
-                <li><a href="#usage" class="hover:text-emerald-400">Basic Usage</a></li>
-                <li><a href="#api" class="hover:text-emerald-400">API Example</a></li>
-                <li><a href="#notes" class="hover:text-emerald-400">Notes</a></li>
-            </ul>
-        </aside>
+<!-- SIDEBAR -->
+<aside class="w-64 hidden md:block border-r border-gray-800 p-6">
+    <h2 class="text-white font-semibold mb-4">Documentation</h2>
 
-        <!-- 📄 Content -->
-        <main class="flex-1 p-6 md:p-10 max-w-4xl mx-auto">
+    <ul class="space-y-3 text-sm">
+        <li><a href="#install" class="hover:text-emerald-400">Installation</a></li>
+        <li><a href="#compile" class="hover:text-emerald-400">How to Compile</a></li>
+        <li><a href="#structure" class="hover:text-emerald-400">Folder Structure</a></li>
+        <li><a href="#usage" class="hover:text-emerald-400">Basic Usage</a></li>
+        <li><a href="#api" class="hover:text-emerald-400">API Example</a></li>
+        <li><a href="#notes" class="hover:text-emerald-400">Notes</a></li>
+    </ul>
+</aside>
 
-            <!-- Title -->
-            <h1 class="text-4xl font-bold text-white mb-6">Documentation</h1>
-            <p class="text-gray-400 mb-10">
-                Learn how to install, configure, and use BhavyTr in your C projects.
-            </p>
+<!-- CONTENT -->
+<main class="flex-1 p-6 md:p-10 max-w-4xl mx-auto">
 
-            <!-- 📦 Installation -->
-            <section id="install" class="mb-16">
-                <h2 class="text-2xl font-semibold text-white mb-4">Installation</h2>
+    <h1 class="text-4xl font-bold text-white mb-6">Documentation</h1>
+    <p class="text-gray-400 mb-10">
+        Learn how to install, configure, compile, and use BhavyTr in your C projects.
+    </p>
 
-                <p class="text-gray-400 mb-4">
-                    Download the latest release and extract it into your project directory.
-                </p>
+    <!-- INSTALL -->
+    <section id="install" class="mb-16">
+        <h2 class="text-2xl font-semibold text-white mb-4">Installation</h2>
 
-                <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
+        <p class="text-gray-400 mb-4">
+            Download the latest release and extract it into your project directory.
+        </p>
+
+        <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
 bhavytr/
 ├── include/
 ├── core/
 ├── parser/
 └── BhavyTr.h
-      </pre>
-            </section>
+        </pre>
+    </section>
 
-            <!-- 📁 Folder Structure -->
-            <section id="structure" class="mb-16">
-                <h2 class="text-2xl font-semibold text-white mb-4">Folder Structure</h2>
+    <!-- COMPILE -->
+    <section id="compile" class="mb-16">
+        <h2 class="text-2xl font-semibold text-white mb-4">How to Compile Your Project</h2>
 
-                <p class="text-gray-400 mb-4">
-                    BhavyTr is divided into modular layers for better maintainability:
-                </p>
+        <p class="text-gray-400 mb-4">
+            Use the following commands to compile BhavyTr depending on your system.
+        </p>
 
-                <ul class="list-disc pl-6 text-gray-400 space-y-2">
-                    <li><span class="text-emerald-400">include/</span> → Public headers</li>
-                    <li><span class="text-emerald-400">parser/</span> → Input parsing layer</li>
-                    <li><span class="text-emerald-400">core/</span> → Tensor engine</li>
-                </ul>
-            </section>
+        <h3 class="text-lg font-semibold text-emerald-400 mb-2">🐧 Linux (GCC)</h3>
+        <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
+gcc main.c -Iinclude -Llib -lbhavytr -o app
+./app
+        </pre>
 
-            <!-- ⚙️ Basic Usage -->
-            <section id="usage" class="mb-16">
-                <h2 class="text-2xl font-semibold text-white mb-4">Basic Usage</h2>
+        <h3 class="text-lg font-semibold text-emerald-400 mb-2">🪟 Windows (MinGW)</h3>
+        <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
+gcc main.c -Iinclude -Llib -lbhavytr -o app.exe
+app.exe
+        </pre>
 
-                <p class="text-gray-400 mb-4">
-                    Include the main header and start using tensors:
-                </p>
+        <h3 class="text-lg font-semibold text-emerald-400 mb-2">🪟 Windows (MSVC)</h3>
+        <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
+cl main.c /I include /link libbhavytr.lib
+app.exe
+        </pre>
+    </section>
 
-                <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
+    <!-- STRUCTURE -->
+    <section id="structure" class="mb-16">
+        <h2 class="text-2xl font-semibold text-white mb-4">Folder Structure</h2>
+
+        <ul class="list-disc pl-6 text-gray-400 space-y-2">
+            <li><span class="text-emerald-400">include/</span> → Public headers</li>
+            <li><span class="text-emerald-400">parser/</span> → Input parsing layer</li>
+            <li><span class="text-emerald-400">core/</span> → Tensor engine</li>
+        </ul>
+    </section>
+
+    <!-- USAGE -->
+    <section id="usage" class="mb-16">
+        <h2 class="text-2xl font-semibold text-white mb-4">Basic Usage</h2>
+
+        <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
 #include "BhavyTr.h"
 
 int main() {
@@ -155,59 +159,54 @@ int main() {
     printTensor(t);
     return 0;
 }
-      </pre>
-            </section>
+        </pre>
+    </section>
 
-            <!-- 🔧 API Example -->
-            <section id="api" class="mb-16">
-                <h2 class="text-2xl font-semibold text-white mb-4">API Example</h2>
+    <!-- API -->
+    <section id="api" class="mb-16">
+        <h2 class="text-2xl font-semibold text-white mb-4">API Example</h2>
 
-                <p class="text-gray-400 mb-4">
-                    Example of tensor creation and operations:
-                </p>
-
-                <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
+        <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
 Tensor *a = createTensor("[[1,2],[3,4]]");
 Tensor *b = createTensor("[[5,6],[7,8]]");
 
 Tensor *c = addTensor(a, b);
 
 printTensor(c);
-      </pre>
-            </section>
+        </pre>
+    </section>
 
-            <!-- 🧠 Notes -->
-            <section id="notes" class="mb-16">
-                <h2 class="text-2xl font-semibold text-white mb-4">Notes</h2>
+    <!-- NOTES -->
+    <section id="notes" class="mb-16">
+        <h2 class="text-2xl font-semibold text-white mb-4">Notes</h2>
 
-                <ul class="list-disc pl-6 text-gray-400 space-y-2">
-                    <li>Currently supports CPU execution</li>
-                    <li>GPU support planned in future versions</li>
-                    <li>Ensure proper memory management</li>
-                </ul>
-            </section>
+        <ul class="list-disc pl-6 text-gray-400 space-y-2">
+            <li>Currently supports CPU execution</li>
+            <li>GPU support planned in future versions</li>
+            <li>Ensure proper memory management</li>
+        </ul>
+    </section>
 
-        </main>
-    </div>
+</main>
+</div>
 
-    <!-- 👨‍💻 Footer -->
-    <footer class="text-center py-8 text-gray-500 border-t border-gray-800">
-        <p>© 2026 BHAVYANSH TECHNOLOGY</p>
-    </footer>
-    <!-- 🔥 MOBILE TOGGLE -->
-    <script>
-        const btn = document.getElementById("menuBtn");
-        const menu = document.getElementById("mobileMenu");
+<!-- FOOTER -->
+<footer class="text-center py-8 text-gray-500 border-t border-gray-800">
+    <p>© 2026 BHAVYANSH TECHNOLOGY</p>
+</footer>
 
-        btn.addEventListener("click", () => {
-            if (menu.style.maxHeight && menu.style.maxHeight !== "0px") {
-                menu.style.maxHeight = "0px";
-            } else {
-                menu.style.maxHeight = menu.scrollHeight + "px";
-            }
-        });
-    </script>
+<!-- MOBILE TOGGLE -->
+<script>
+const btn = document.getElementById("menuBtn");
+const menu = document.getElementById("mobileMenu");
+
+btn.addEventListener("click", () => {
+    menu.style.maxHeight =
+        menu.style.maxHeight && menu.style.maxHeight !== "0px"
+            ? "0px"
+            : menu.scrollHeight + "px";
+});
+</script>
 
 </body>
-
 </html>
