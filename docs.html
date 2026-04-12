@@ -121,11 +121,7 @@ bhavytr/
 
     <!-- STRUCTURE -->
     <h3 class="text-lg font-semibold text-emerald-400 mb-2">📁 Step 1: Folder Structure</h3>
-     <button onclick="copyCode(this)" 
-        class="absolute top-2 right-2 text-xs bg-gray-800 text-gray-300 px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition">
-        Copy
-    </button>
-    <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
+        <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
 BhavyTr/
 │   main.c
 │   libbhavytr_shared.dll
@@ -139,11 +135,7 @@ BhavyTr/
 
     <!-- COPY -->
     <h3 class="text-lg font-semibold text-emerald-400 mb-2">📋 Step 2: Copy Files (Windows)</h3>
-     <button onclick="copyCode(this)" 
-        class="absolute top-2 right-2 text-xs bg-gray-800 text-gray-300 px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition">
-        Copy
-    </button>
-    <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
+         <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
 mkdir BhavyTr
 
 xcopy /E /I BhavyTr-v1.0.2\include BhavyTr\include
@@ -158,30 +150,18 @@ copy BhavyTr-v1.0.2\bin\gcc\libbhavytr_shared.dll BhavyTr\
 
     <!-- COMPILE -->
     <h3 class="text-lg font-semibold text-emerald-400 mb-2">⚙️ Step 3: Compile (Dynamic)</h3>
-     <button onclick="copyCode(this)" 
-        class="absolute top-2 right-2 text-xs bg-gray-800 text-gray-300 px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition">
-        Copy
-    </button>
-    <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
+         <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
 gcc main.c -I include -L lib/gcc -lbhavytr_shared -o app.exe
     </pre>
 
     <!-- STATIC -->
     <h3 class="text-lg font-semibold text-emerald-400 mb-2">⚡ Step 4: Compile (Static - Recommended)</h3>
-     <button onclick="copyCode(this)" 
-        class="absolute top-2 right-2 text-xs bg-gray-800 text-gray-300 px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition">
-        Copy
-    </button>
     <pre class="bg-black text-green-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
 gcc main.c -I include lib/gcc/libbhavytr_static.a -o app.exe
     </pre>
 
     <!-- RUN -->
     <h3 class="text-lg font-semibold text-emerald-400 mb-2">🚀 Step 5: Run</h3>
-     <button onclick="copyCode(this)" 
-        class="absolute top-2 right-2 text-xs bg-gray-800 text-gray-300 px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition">
-        Copy
-    </button>
     <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
 app.exe
     </pre>
@@ -204,11 +184,7 @@ app.exe
     <!-- USAGE -->
     <section id="usage" class="mb-16">
         <h2 class="text-2xl font-semibold text-white mb-4">Basic Usage</h2>
-         <button onclick="copyCode(this)" 
-        class="absolute top-2 right-2 text-xs bg-gray-800 text-gray-300 px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition">
-        Copy
-    </button>
-
+        
         <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
 #include "BhavyTr.h"
 
@@ -223,10 +199,7 @@ int main() {
     <!-- API -->
     <section id="api" class="mb-16">
         <h2 class="text-2xl font-semibold text-white mb-4">API Example</h2>
-         <button onclick="copyCode(this)" 
-        class="absolute top-2 right-2 text-xs bg-gray-800 text-gray-300 px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition">
-        Copy
-    </button>
+        
 
         <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
 Tensor *a = createTensor("[[1,2],[3,4]]");
