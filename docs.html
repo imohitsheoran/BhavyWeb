@@ -110,32 +110,66 @@ bhavytr/
     </section>
 
     <!-- COMPILE -->
-    <section id="compile" class="mb-16">
-        <h2 class="text-2xl font-semibold text-white mb-4">How to Compile Your Project</h2>
+    <!-- ADD THIS NEW SECTION AFTER INSTALLATION -->
 
-        <p class="text-gray-400 mb-4">
-            Use the following commands to compile BhavyTr depending on your system.
-        </p>
+<section id="setup" class="mb-16">
+    <h2 class="text-2xl font-semibold text-white mb-4">Setup & Compilation</h2>
 
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">🐧 Linux (GCC)</h3>
-        <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
-gcc main.c -Iinclude -Llib -lbhavytr -o app
-./app
-        </pre>
+    <p class="text-gray-400 mb-6">
+        Follow these steps to prepare your project and compile BhavyTr correctly.
+    </p>
 
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">🪟 Windows (MinGW)</h3>
-        <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
-gcc main.c -Iinclude -Llib -lbhavytr -o app.exe
+    <!-- STRUCTURE -->
+    <h3 class="text-lg font-semibold text-emerald-400 mb-2">📁 Step 1: Folder Structure</h3>
+    <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
+BhavyTr/
+│   main.c
+│   libbhavytr_shared.dll
+│
+├── include/
+└── lib/
+    └── gcc/
+        libbhavytr_shared.dll.a
+        libbhavytr_static.a
+    </pre>
+
+    <!-- COPY -->
+    <h3 class="text-lg font-semibold text-emerald-400 mb-2">📋 Step 2: Copy Files (Windows)</h3>
+    <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
+mkdir BhavyTr
+
+xcopy /E /I BhavyTr-v1.0.2\include BhavyTr\include
+
+mkdir BhavyTr\lib\gcc
+
+copy BhavyTr-v1.0.2\lib\gcc\libbhavytr_shared.dll.a BhavyTr\lib\gcc\
+copy BhavyTr-v1.0.2\lib\gcc\libbhavytr_static.a BhavyTr\lib\gcc\
+
+copy BhavyTr-v1.0.2\bin\gcc\libbhavytr_shared.dll BhavyTr\
+    </pre>
+
+    <!-- COMPILE -->
+    <h3 class="text-lg font-semibold text-emerald-400 mb-2">⚙️ Step 3: Compile (Dynamic)</h3>
+    <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
+gcc main.c -I include -L lib/gcc -lbhavytr_shared -o app.exe
+    </pre>
+
+    <!-- STATIC -->
+    <h3 class="text-lg font-semibold text-emerald-400 mb-2">⚡ Step 4: Compile (Static - Recommended)</h3>
+    <pre class="bg-black text-green-400 p-5 rounded-xl border border-gray-800 overflow-x-auto mb-6">
+gcc main.c -I include lib/gcc/libbhavytr_static.a -o app.exe
+    </pre>
+
+    <!-- RUN -->
+    <h3 class="text-lg font-semibold text-emerald-400 mb-2">🚀 Step 5: Run</h3>
+    <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
 app.exe
-        </pre>
+    </pre>
 
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">🪟 Windows (MSVC)</h3>
-        <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
-cl main.c /I include /link libbhavytr.lib
-app.exe
-        </pre>
-    </section>
-
+    <p class="text-sm text-gray-500 mt-2">
+        Make sure <span class="text-emerald-400">libbhavytr_shared.dll</span> is in the same folder as your executable.
+    </p>
+</section>
     <!-- STRUCTURE -->
     <section id="structure" class="mb-16">
         <h2 class="text-2xl font-semibold text-white mb-4">Folder Structure</h2>
