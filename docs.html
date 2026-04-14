@@ -186,23 +186,110 @@ app.exe
         <h2 class="text-2xl font-semibold text-white mb-4">Basic Usage</h2>
         
         <pre class="bg-black text-emerald-400 p-5 rounded-xl border border-gray-800 overflow-x-auto">
-#include <stdio.h>
-#include "include/BhavyTr.h"
+#include "BhavyTr.h"
+#include "<stdio.h>"
+#include "<stdlib.h>"
 
 int main() {
-    printf("PROGRAM STARTED\n");
 
-    Tensor* t = createTensorA("L[[1,2],[3,4]]");
+    printf("=========== CREATE TENSORS ===========\n");
 
-    printf("TENSOR CREATED\n");
+    Tensor* A = createTensorA("L[[1,2,3],[4,5,6]]");   // (2,3)
+    Tensor* B = createTensorA("L[[10,20,30]]");        // (1,3)
+    Tensor* C = createTensorA("L[[2],[3]]");           // (2,1)
 
-    printTensor(t);
+    printf("Tensor A:\n");
+    printTensor(A);
 
-    freeTensor(t);
+    printf("Tensor B:\n");
+    printTensor(B);
 
-    printf("PROGRAM END\n");
+    printf("Tensor C:\n");
+    printTensor(C);
+
+    // =========================================
+    printf("\n=========== SLICING / INDEXING ===========\n");
+
+    // Single element
+    Tensor* s1 = sliceTensor(A, "I[1,2]");
+    printf("A[1,2]:\n");
+    printTensor(s1);
+
+    // Full slice
+    Tensor* s2 = sliceTensor(A, "S[:,1]");
+    printf("A[:,1]:\n");
+    printTensor(s2);
+
+    // Range slice
+    Tensor* s3 = sliceTensor(A, "S[0:2,1:3]");
+    printf("A[0:2,1:3]:\n");
+    printTensor(s3);
+
+    // Negative index
+    Tensor* s4 = sliceTensor(A, "I[-1,-1]");
+    printf("A[-1,-1]:\n");
+    printTensor(s4);
+
+    // =========================================
+    printf("\n=========== BROADCAST OPERATIONS ===========\n");
+
+    Tensor* add1 = tensorAdd(A, B);
+    printf("A + B:\n");
+    printTensor(add1);
+
+    Tensor* mul1 = tensorMul(A, C);
+    printf("A * C:\n");
+    printTensor(mul1);
+
+    // =========================================
+    printf("\n=========== EXPRESSION ENGINE ===========\n");
+
+    registerTensor('A', A);
+    registerTensor('B', B);
+    registerTensor('C', C);
+
+    Tensor* e1 = ops("A+B");
+    printf("ops(\"A+B\"):\n");
+    printTensor(e1);
+
+    Tensor* e2 = ops("A*C");
+    printf("ops(\"A*C\"):\n");
+    printTensor(e2);
+
+    Tensor* e3 = ops("A-B");
+    printf("ops(\"A-B\"):\n");
+    printTensor(e3);
+
+    Tensor* e4 = ops("A/B");
+    printf("ops(\"A/B\"):\n");
+    printTensor(e4);
+
+    // =========================================
+    printf("\n=========== MEMORY CLEANUP ===========\n");
+
+    // views (sliceTensor)
+    freeTensorView(s1);
+    freeTensorView(s2);
+    freeTensorView(s3);
+    freeTensorView(s4);
+
+    // ops results
+    freeTensor(add1);
+    freeTensor(mul1);
+    freeTensor(e1);
+    freeTensor(e2);
+    freeTensor(e3);
+    freeTensor(e4);
+
+    // original tensors
+    freeTensor(A);
+    freeTensor(B);
+    freeTensor(C);
+
+    printf("All memory freed successfully.\n");
+
     return 0;
-}        </pre>
+}  </pre>
     </section>
 
     <!-- API -->
