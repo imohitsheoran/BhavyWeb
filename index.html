@@ -4,219 +4,818 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BhavyTr | Lightweight Tensor Engine in C</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-  <!-- ✅ RESPONSIVE FIX CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* Desktop menu default */
-    .desktop-menu {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07090F;
+      --bg2:       #0D1117;
+      --bg3:       #111827;
+      --border:    #1E2A3A;
+      --cyan:      #00D4FF;
+      --cyan-dim:  #00A3C4;
+      --cyan-glow: rgba(0,212,255,0.15);
+      --white:     #F0F6FC;
+      --muted:     #7D8FA3;
+      --card:      rgba(13,17,23,0.85);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── GLOW BLOB ── */
+    .glow-blob {
+      position: fixed;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7,9,15,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 68px;
       display: flex;
-      gap: 32px;
+      justify-content: space-between;
       align-items: center;
     }
 
-    /* Hide desktop on mobile */
-    @media (max-width: 768px) {
-      .desktop-menu {
-        display: none !important;
-      }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* Mobile menu base */
-    #mobileMenu {
-      max-height: 0;
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--cyan), #0070FF);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+    .nav-links a.active { color: var(--cyan); }
+
+    .nav-cta {
+      background: var(--cyan) !important;
+      color: #000 !important;
+      font-weight: 600 !important;
+      padding: 8px 20px !important;
+      border-radius: 8px !important;
+    }
+    .nav-cta:hover { background: #33DDFF !important; }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      cursor: pointer;
+      padding: 8px;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 12px 0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 12px 32px;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--cyan); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 120px 32px 100px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.25);
+      color: var(--cyan);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, #fff 30%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-top: 20px;
+      line-height: 1.7;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 400;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 30px rgba(0,212,255,0.25);
+    }
+    .btn-primary:hover {
+      background: #33DDFF;
+      transform: translateY(-1px);
+      box-shadow: 0 0 50px rgba(0,212,255,0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-secondary:hover { border-color: var(--cyan); background: var(--cyan-glow); }
+
+    /* ── CODE PREVIEW ── */
+    .code-preview {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 64px auto 0;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .code-window {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
       overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    }
+
+    .code-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg3);
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #FF5F57; }
+    .dot-y { background: #FEBC2E; }
+    .dot-g { background: #28C840; }
+
+    .code-label {
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .code-body {
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    .c-comment { color: #4A5F73; }
+    .c-kw   { color: #FF7B72; }
+    .c-type { color: var(--cyan); }
+    .c-fn   { color: #D2A8FF; }
+    .c-str  { color: #A5D6FF; }
+    .c-num  { color: #F2CC60; }
+
+    /* ── SECTION ── */
+    section { position: relative; z-index: 1; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+      max-width: 560px;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 100px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .features-header .section-desc { margin: 0 auto; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+    }
+    .feature-card:hover {
+      border-color: rgba(0,212,255,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,212,255,0.1);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.15);
+    }
+
+    .feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── ARCHITECTURE ── */
+    .arch-section {
+      padding: 80px 32px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .arch-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .arch-flow {
       display: flex;
       flex-direction: column;
-      background: #020617;
-      border-top: 1px solid #1f2937;
-      transition: max-height 0.3s ease;
+      gap: 0;
+    }
+
+    .arch-step {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      color: var(--white);
+      position: relative;
+      transition: border-color 0.2s;
+    }
+    .arch-step:hover { border-color: var(--cyan); }
+
+    .arch-arrow {
+      display: flex;
+      justify-content: center;
+      padding: 8px 0;
+      color: var(--cyan);
+      font-size: 1rem;
+    }
+
+    .arch-step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      color: var(--cyan);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 40px;
+    }
+
+    .stat {
+      background: var(--bg2);
+      padding: 32px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -1px;
+    }
+
+    .stat-val span { color: var(--cyan); }
+
+    .stat-lbl {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 100px 32px;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 64px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(0,212,255,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-card h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .cta-card p {
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-weight: 700;
+      color: var(--white);
+      font-size: 0.95rem;
+    }
+
+    .footer-copy {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--cyan); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero { padding: 80px 24px 60px; }
+      .features { padding: 60px 24px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .arch-inner { grid-template-columns: 1fr; gap: 40px; }
+      .stats { grid-template-columns: 1fr; }
+      .cta-card { padding: 40px 28px; }
+      footer { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 
-<body class="bg-gray-950 text-gray-200">
+<body>
 
-<!-- 🔝 NAVBAR -->
-<nav id="navbar" class="sticky top-0 z-50 bg-gray-950/80 backdrop-blur border-b border-gray-800">
+<div class="glow-blob"></div>
 
-  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-
-    <!-- Logo -->
-    <h1 class="text-xl font-bold text-white">BhavyTr</h1>
-
-    <!-- Desktop Menu (FIXED) -->
-    <div class="desktop-menu">
-
-      <a href="index.html" class=" text-emerald-400 hover:text-emerald-400 transition">Home</a>
-      <a href="docs.html" class="text-gray-300 hover:text-emerald-400 transition">Docs</a>
-      <a href="download.html" class="text-gray-300 font-semibold hover:text-emerald-300 transition">
-        Download
-      </a>
-
-      <a href="https://github.com/imohitsheoran" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm transition" target="_blank">
-        GitHub
-      </a>
-
-    </div>
-
-    <!-- Mobile Button -->
-    <button id="menuBtn" class="text-white text-3xl md:hidden">
-      ☰
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">Tr</div>
+      BhavyTr
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="doo.html">Docs</a></li>
+      <li><a href="download.html">Download</a></li>
+      <li><a href="https://github.com/imohitsheoran" target="_blank" class="nav-cta">GitHub →</a></li>
+    </ul>
+    <button class="hamburger" id="menuBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
     </button>
-
   </div>
-
-  <!-- Mobile Menu -->
-  <div id="mobileMenu">
-
-    <a href="index.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Home</a>
-    <a href="docs.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Docs</a>
-    <a href="download.html" class="px-6 py-3 text-gray-300 hover:text-emerald-400">Download</a>
-    <a href="https://github.com/imohitsheoran" class="px-6 py-3 text-gray-300 hover:text-emerald-400" target="_blank">GitHub</a>
-
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="doo.html">Docs</a>
+    <a href="download.html">Download</a>
+    <a href="https://github.com/imohitsheoran" target="_blank">GitHub</a>
   </div>
-
 </nav>
-<!-- 🚀 Hero Section -->
-<section class="text-center py-24 px-6">
 
-  <h1 class="text-4xl md:text-6xl font-bold bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
-    BhavyTr
-  </h1>
-
-  <p class="mt-4 text-emerald-400 text-sm uppercase tracking-wide">
-    High Performance • Modular • C-Based
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">v1.2.1 — Latest Release</div>
+  <h1><span class="gradient">BhavyTr</span></h1>
+  <p class="hero-sub">
+    A lightweight, high-performance tensor engine written in C.
+    Built for speed, designed for clarity.
   </p>
-
-  <p class="mt-6 text-lg text-gray-400 max-w-2xl mx-auto">
-    Lightweight Tensor Engine in C for High Performance Computing.
-  </p>
-
-  <div class="mt-10 flex justify-center gap-4 flex-wrap">
-
-    <a href="download.html"
-       class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg transition">
+  <div class="hero-actions">
+    <a href="download.html" class="btn-primary">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Download
     </a>
-
-    <a href="docs.html"
-       class="border border-gray-700 hover:border-emerald-400 px-6 py-3 rounded-lg transition">
+    <a href="doo.html" class="btn-secondary">
       Documentation
-    </a>
-
-  </div>
-
-</section>
-
-<!-- ✨ About -->
-<section class="py-20 px-6 max-w-4xl mx-auto text-center">
-
-  <h2 class="text-3xl font-semibold text-white mb-6">
-    Why BhavyTr?
-  </h2>
-
-  <p class="text-lg text-gray-400 leading-relaxed">
-    BhavyTr is a lightweight and high-performance tensor engine written in C.
-    It is designed for modular architecture with a clean separation between
-    user layer, parser, and core engine, making it efficient and scalable.
-  </p>
-
-</section>
-
-<!-- ⚡ Features -->
-<section class="py-20 px-6 max-w-6xl mx-auto">
-
-  <h2 class="text-3xl font-semibold text-white text-center mb-12">
-    Features
-  </h2>
-
-  <div class="grid md:grid-cols-3 gap-8">
-
-    <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl">
-      <h3 class="text-xl font-semibold text-white mb-2">⚡ High Performance</h3>
-      <p class="text-gray-400">Built in C for maximum speed and efficiency.</p>
-    </div>
-
-    <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl">
-      <h3 class="text-xl font-semibold text-white mb-2">🧩 Modular Design</h3>
-      <p class="text-gray-400">Clean separation of parser and core engine.</p>
-    </div>
-
-    <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl">
-      <h3 class="text-xl font-semibold text-white mb-2">🔌 Easy Integration</h3>
-      <p class="text-gray-400">Simple API for C projects.</p>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- 🧱 Architecture -->
-<section class="py-20 px-6 bg-gray-900 border-y border-gray-800 text-center">
-
-  <h2 class="text-3xl font-semibold text-white mb-6">
-    Architecture
-  </h2>
-
-  <pre class="text-emerald-400 bg-black p-6 rounded-xl border border-gray-800">
-User Code → Parser → Core Engine → Compute Layer
-  </pre>
-
-</section>
-
-<!-- 💻 Example -->
-<section class="py-20 px-6 max-w-4xl mx-auto">
-
-  <h2 class="text-3xl font-semibold text-white mb-6 text-center">
-    Quick Example
-  </h2>
-
-  <pre class="bg-black text-emerald-400 p-6 rounded-xl border border-gray-800 overflow-x-auto">
-#include "BhavyTr.h"
-
-int main() {
-    Tensor *t = createTensor("[[1,2],[3,4]]");
-    printTensor(t);
-}
-  </pre>
-
-</section>
-
-<!-- 📦 CTA -->
-<section class="text-center py-20 px-6 border-t border-gray-800">
-
-  <h2 class="text-3xl font-bold text-white">
-    Get Started with BhavyTr
-  </h2>
-
-  <div class="mt-6">
-    <a href="download.html"
-       class="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg">
-      Download Now
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
   </div>
 
+  <!-- Code Preview -->
+  <div class="code-preview">
+    <div class="code-window">
+      <div class="code-titlebar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="code-label">main.c</span>
+      </div>
+      <div class="code-body">
+        <span class="c-comment">// Create and operate on tensors</span><br>
+        <span class="c-kw">#include</span> <span class="c-str">"BhavyTr.h"</span><br><br>
+        <span class="c-kw">int</span> <span class="c-fn">main</span>() {<br>
+        &nbsp;&nbsp;<span class="c-type">Tensor</span>* A = <span class="c-fn">createTensorA</span>(<span class="c-str">"L[[1,2,3],[4,5,6]]"</span>);<br>
+        &nbsp;&nbsp;<span class="c-type">Tensor</span>* B = <span class="c-fn">createTensorA</span>(<span class="c-str">"L[[10,20,30]]"</span>);<br><br>
+        &nbsp;&nbsp;<span class="c-type">Tensor</span>* result = <span class="c-fn">tensorAdd</span>(A, B);<br>
+        &nbsp;&nbsp;<span class="c-fn">printTensor</span>(result);<br><br>
+        &nbsp;&nbsp;<span class="c-fn">freeTensor</span>(result);<br>
+        &nbsp;&nbsp;<span class="c-kw">return</span> <span class="c-num">0</span>;<br>
+        }
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- 👨‍💻 Footer -->
-<footer class="text-center py-10 text-gray-500 border-t border-gray-800">
-  © 2026 BHAVYANSH TECHNOLOGY
+<!-- STATS -->
+<div style="max-width:1200px;margin:0 auto;padding:0 32px;position:relative;z-index:1;">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-val"><span>100</span>% C</div>
+      <div class="stat-lbl">No dependencies</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">Cross<span>-</span>Platform</div>
+      <div class="stat-lbl">GCC &amp; MSVC supported</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val"><span>MIT</span></div>
+      <div class="stat-lbl">Open source license</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-header">
+    <p class="section-label">Why BhavyTr?</p>
+    <h2 class="section-title">Built for performance. Made to last.</h2>
+    <p class="section-desc">
+      A clean, modular architecture that separates concerns so you can build on top of it with confidence.
+    </p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>High Performance</h3>
+      <p>Pure C gives you direct hardware access with zero overhead. No garbage collection, no runtime surprises.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🧩</div>
+      <h3>Modular Design</h3>
+      <p>Clean separation between the user API, parser, and core engine. Extend any layer without touching the others.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔌</div>
+      <h3>Easy Integration</h3>
+      <p>Drop the headers into your project and link the static library. Works in any existing C codebase.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📐</div>
+      <h3>Tensor Slicing</h3>
+      <p>NumPy-style indexing: single elements, full slices, range slices, and negative indexing — all supported.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📡</div>
+      <h3>Broadcasting</h3>
+      <p>Automatically broadcasts tensors of compatible shapes, just like you'd expect from a modern tensor library.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔬</div>
+      <h3>Expression Engine</h3>
+      <p>Register named tensors and evaluate expressions like <code style="font-family:JetBrains Mono,monospace;color:var(--cyan);font-size:0.85em">ops("A+B")</code> as strings at runtime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="arch-section">
+  <div class="arch-inner">
+    <div>
+      <p class="section-label">Architecture</p>
+      <h2 class="section-title" style="font-size:1.9rem;">Layered for clarity</h2>
+      <p class="section-desc">
+        BhavyTr uses a clean four-layer pipeline. Each layer does one thing, and does it well.
+      </p>
+    </div>
+    <div class="arch-flow">
+      <div class="arch-step">
+        <div class="arch-step-num">01</div>
+        Your Code
+      </div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-step">
+        <div class="arch-step-num">02</div>
+        Parser Layer
+      </div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-step">
+        <div class="arch-step-num">03</div>
+        Core Engine
+      </div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-step">
+        <div class="arch-step-num">04</div>
+        Compute Layer
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:80px 32px;position:relative;z-index:1;">
+  <div class="cta-card" style="max-width:700px;margin:0 auto;text-align:center;">
+    <div style="position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:400px;height:300px;background:radial-gradient(ellipse,rgba(0,212,255,0.1) 0%,transparent 70%);pointer-events:none;"></div>
+    <p class="section-label" style="margin-bottom:16px;">Get Started</p>
+    <h2 style="font-size:2rem;font-weight:700;letter-spacing:-0.5px;margin-bottom:12px;">Ready to build?</h2>
+    <p style="color:var(--muted);margin-bottom:32px;">Download BhavyTr and integrate it into your C project in minutes.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="download.html" class="btn-primary">Download Now</a>
+      <a href="doo.html" class="btn-secondary">Read the Docs</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BhavyTr</div>
+  <div class="footer-copy">© 2026 Bhavyansh Technology. MIT License.</div>
+  <div class="footer-links">
+    <a href="doo.html">Docs</a>
+    <a href="download.html">Download</a>
+    <a href="https://github.com/imohitsheoran" target="_blank">GitHub</a>
+  </div>
 </footer>
 
-<!-- 🔥 MOBILE MENU SCRIPT -->
 <script>
-const btn = document.getElementById("menuBtn");
-const menu = document.getElementById("mobileMenu");
-
-btn.addEventListener("click", () => {
-  if (menu.style.maxHeight && menu.style.maxHeight !== "0px") {
-    menu.style.maxHeight = "0px";
-  } else {
-    menu.style.maxHeight = menu.scrollHeight + "px";
-  }
-});
+  const btn = document.getElementById('menuBtn');
+  const menu = document.getElementById('mobileMenu');
+  btn.addEventListener('click', () => menu.classList.toggle('open'));
 </script>
 
 </body>
