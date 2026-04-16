@@ -3,224 +3,1114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download BhavyTr</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
+  <title>Download BhavyTr | Lightweight Tensor Engine in C</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    .desktop-menu {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07090F;
+      --bg2:       #0D1117;
+      --bg3:       #111827;
+      --border:    #1E2A3A;
+      --cyan:      #00D4FF;
+      --cyan-dim:  #00A3C4;
+      --cyan-glow: rgba(0,212,255,0.15);
+      --white:     #F0F6FC;
+      --muted:     #7D8FA3;
+      --card:      rgba(13,17,23,0.85);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-blob {
+      position: fixed;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7,9,15,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 68px;
       display: flex;
-      gap: 32px;
+      justify-content: space-between;
       align-items: center;
     }
 
-    @media (max-width: 768px) {
-      .desktop-menu {
-        display: none !important;
-      }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    #mobileMenu {
-      max-height: 0;
-      overflow: hidden;
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--cyan), #0070FF);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+    .nav-links a.active { color: var(--cyan); }
+
+    .nav-cta {
+      background: var(--cyan) !important;
+      color: #000 !important;
+      font-weight: 600 !important;
+      padding: 8px 20px !important;
+      border-radius: 8px !important;
+    }
+    .nav-cta:hover { background: #33DDFF !important; }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      cursor: pointer;
+      padding: 8px;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 12px 0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 12px 32px;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--cyan); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 100px 32px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.25);
+      color: var(--cyan);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 4.8rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, #fff 30%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-top: 20px;
+      line-height: 1.7;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .version-tag {
+      display: inline-block;
+      margin-top: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--cyan);
+      font-weight: 500;
+      animation: fadeUp 0.6s 0.25s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 30px rgba(0,212,255,0.25);
+    }
+    .btn-primary:hover {
+      background: #33DDFF;
+      transform: translateY(-1px);
+      box-shadow: 0 0 50px rgba(0,212,255,0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-secondary:hover { border-color: var(--cyan); background: var(--cyan-glow); }
+
+    /* ── SHARED ── */
+    section { position: relative; z-index: 1; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+      max-width: 560px;
+    }
+
+    /* ── INSTALLATION ── */
+    .install-section {
+      padding: 80px 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .install-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .install-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+    }
+    .install-card:hover {
+      border-color: rgba(0,212,255,0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.15);
+    }
+
+    .install-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .step-list {
+      list-style: none;
       display: flex;
       flex-direction: column;
-      background: #020617;
-      border-top: 1px solid #1f2937;
-      transition: max-height 0.3s ease;
+      gap: 12px;
+    }
+
+    .step-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: var(--cyan);
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-arrow {
+      color: var(--cyan);
+      font-weight: 600;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── FOLDER STRUCTURE ── */
+    .folder-section {
+      padding: 80px 32px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .folder-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .folder-tree {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .folder-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg3);
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #FF5F57; }
+    .dot-y { background: #FEBC2E; }
+    .dot-g { background: #28C840; }
+
+    .folder-label {
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .folder-body {
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 2;
+    }
+
+    .f-root { color: var(--white); }
+    .f-dir  { color: var(--cyan); }
+    .f-file { color: #A5D6FF; }
+    .f-dll  { color: #F2CC60; }
+    .f-tree { color: #4A5F73; }
+
+    /* ── COMPILE ── */
+    .compile-section {
+      padding: 80px 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .compile-header {
+      margin-bottom: 48px;
+    }
+
+    .os-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .os-tab {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+    .os-tab:hover { border-color: var(--cyan); color: var(--white); }
+    .os-tab.active {
+      background: rgba(0,212,255,0.1);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .compile-panels { position: relative; }
+
+    .compile-panel {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .compile-panel.active { display: flex; }
+
+    .compile-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .compile-step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .compile-step-content { flex: 1; }
+
+    .compile-step-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .compile-step-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .code-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow-x: auto;
+    }
+
+    .code-block .prompt {
+      color: #4A5F73;
+      flex-shrink: 0;
+    }
+
+    .code-block .cmd { color: var(--cyan); }
+    .code-block .flag { color: #F2CC60; }
+    .code-block .out { color: #A5D6FF; }
+
+    /* ── RELEASE NOTES ── */
+    .release-section {
+      padding: 80px 32px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .release-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .release-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .release-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+    .release-card:hover {
+      border-color: rgba(0,212,255,0.3);
+      transform: translateY(-3px);
+    }
+    .release-card.latest {
+      border-color: rgba(0,212,255,0.3);
+      background: rgba(0,212,255,0.03);
+    }
+
+    .release-version {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .release-version h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem;
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    .release-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.25);
+      color: var(--cyan);
+    }
+
+    .release-card p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .release-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .release-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .release-list li::before {
+      content: '→';
+      color: var(--cyan);
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      margin-top: 1px;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 100px 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-card {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 64px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(0,212,255,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-card h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .cta-card p {
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo { font-weight: 700; color: var(--white); font-size: 0.95rem; }
+    .footer-copy { font-size: 0.82rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--cyan); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero { padding: 80px 24px 60px; }
+      .install-grid { grid-template-columns: 1fr; }
+      .folder-inner { grid-template-columns: 1fr; gap: 32px; }
+      .release-grid { grid-template-columns: 1fr; }
+      .cta-card { padding: 40px 28px; }
+      footer { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 
-<body class="bg-gray-950 text-gray-200">
+<body>
+<div class="glow-blob"></div>
 
 <!-- NAVBAR -->
-<nav class="sticky top-0 z-50 bg-gray-950/80 backdrop-blur border-b border-gray-800">
-
-  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-
-    <h1 class="text-xl font-bold text-white">BhavyTr</h1>
-
-    <div class="desktop-menu">
-      <a href="index.html" class="text-gray-300 hover:text-emerald-400">Home</a>
-      <a href="docs.html" class="text-gray-300 hover:text-emerald-400">Docs</a>
-      <a href="download.html" class="text-emerald-400 font-semibold">Download</a>
-
-      <a href="https://github.com/imohitsheoran"
-         class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm"
-         target="_blank">
-        GitHub
-      </a>
-    </div>
-
-    <button id="menuBtn" class="text-white text-3xl md:hidden">☰</button>
-
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">Tr</div>
+      BhavyTr
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="docs.html">Docs</a></li>
+      <li><a href="download.html" class="active">Download</a></li>
+      <li><a href="https://github.com/imohitsheoran" target="_blank" class="nav-cta">GitHub →</a></li>
+    </ul>
+    <button class="hamburger" id="menuBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
-
-  <!-- Mobile Menu -->
-  <div id="mobileMenu">
-    <a href="index.html" class="px-6 py-3">Home</a>
-    <a href="docs.html" class="px-6 py-3">Docs</a>
-    <a href="download.html" class="px-6 py-3">Download</a>
-    <a href="https://github.com/imohitsheoran" class="px-6 py-3">GitHub</a>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="docs.html">Docs</a>
+    <a href="download.html">Download</a>
+    <a href="https://github.com/imohitsheoran" target="_blank">GitHub</a>
   </div>
-
 </nav>
 
-<!-- MAIN -->
-<section class="text-center py-24 px-6">
-
-  <h1 class="text-4xl md:text-5xl font-bold text-white">
-    Download BhavyTr
-  </h1>
-
-  <p class="mt-4 text-gray-400">
-    Get the latest stable fix release and start building high-performance tensor applications.
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">v1.0.2 — Stable Fix Release</div>
+  <h1><span class="gradient">Download BhavyTr</span></h1>
+  <p class="hero-sub">
+    Get the latest stable release and start building high-performance tensor applications in C.
   </p>
-
-  <p class="mt-2 text-emerald-400 font-semibold">
-    Version: v1.0.2 (Fix Release)
-  </p>
-
-  <div class="mt-10 flex justify-center gap-4 flex-wrap">
-
-    <a href="https://github.com/imohitsheoran/BhavyTr-v1.0.1/releases/download/v1.2.1/BhavyTr-v1.2.1.zip"
-       class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg transition" download>
+  <div class="hero-actions">
+    <a href="https://github.com/imohitsheoran/BhavyTr-v1.0.1/releases/tag/v1.2.1/BhavyTr-v1.2.1.zip"
+       class="btn-primary" download>
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
       Download ZIP
     </a>
-
-    <a href="https://github.com/imohitsheoran/BhavyTr-v1.0.1/releases/tag/v1.2.1"
-       class="border border-gray-700 hover:border-emerald-400 px-6 py-3 rounded-lg transition">
+    <a href="https://github.com/imohitsheoran/BhavyTr-v1.0.1/releases/tag/v1.2.1" class="btn-secondary" target="_blank">
+      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 22.296 24 17.798 24 12.5 24 5.87 18.627.5 12 .5z"/>
+      </svg>
       GitHub Release
     </a>
-
   </div>
-
 </section>
 
-<!-- INSTALL -->
-<section class="py-20 px-6 max-w-4xl mx-auto">
+<!-- INSTALLATION -->
+<section class="install-section">
+  <div>
+    <p class="section-label">Getting Started</p>
+    <h2 class="section-title">Installation & Setup</h2>
+    <p class="section-desc">Follow these steps to get BhavyTr running in your project.</p>
+  </div>
 
-  <h2 class="text-3xl font-semibold text-white mb-6">Quick Installation</h2>
+  <div class="install-grid">
+    <!-- Installation Card -->
+    <div class="install-card">
+      <div class="card-icon">📦</div>
+      <h3>Installation</h3>
+      <ul class="step-list">
+        <li>
+          <span class="step-num">01</span>
+          <span>Visit the website <span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:0.85em">bhavy.org</span></span>
+        </li>
+        <li>
+          <span class="step-num">02</span>
+          <span>Download the ZIP file from the releases page</span>
+        </li>
+        <li>
+          <span class="step-num">03</span>
+          <span>Extract the ZIP file into your project folder</span>
+        </li>
+      </ul>
+    </div>
 
-  <ol class="list-decimal pl-6 text-gray-400 space-y-3">
-    <li>Download ZIP or clone repository</li>
-    <li>Extract into project directory</li>
-    <li>Include BhavyTr.h header</li>
-    <li>Compile using GCC / MSVC</li>
-  </ol>
+    <!-- Setup Card -->
+    <div class="install-card">
+      <div class="card-icon">⚙️</div>
+      <h3>Setup</h3>
+      <ul class="step-list">
+        <li>
+          <span class="step-arrow">→</span>
+          <span>Create a new project folder</span>
+        </li>
+        <li>
+          <span class="step-arrow">→</span>
+          <span>Add <span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:0.85em">lib</span> and <span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:0.85em">include</span> folders from the extracted archive</span>
+        </li>
+        <li>
+          <span class="step-arrow">→</span>
+          <span>Create a <span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:0.85em">generate</span> output folder</span>
+        </li>
+        <li>
+          <span class="step-arrow">→</span>
+          <span><strong style="color:var(--white)">Windows:</strong> Add the <span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:0.85em">bin/</span> folder containing <span style="color:#F2CC60;font-family:'JetBrains Mono',monospace;font-size:0.85em">.dll</span> files</span>
+        </li>
+        <li>
+          <span class="step-arrow">→</span>
+          <span><strong style="color:var(--white)">Linux:</strong> Place files in the folder containing your C source file</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-  <pre class="mt-6 bg-black text-emerald-400 p-6 rounded-xl border border-gray-800 overflow-x-auto">
-#include "BhavyTr.h"
+<!-- FOLDER STRUCTURE -->
+<section class="folder-section">
+  <div class="folder-inner">
+    <div>
+      <p class="section-label">Project Layout</p>
+      <h2 class="section-title" style="font-size:1.9rem;">Folder Structure</h2>
+      <p class="section-desc">
+        A clean layout keeps your project organised. Here's the recommended directory structure for your BhavyTr project.
+      </p>
+      <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;gap:12px;font-size:0.875rem;color:var(--muted);">
+          <span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;">lib/</span>
+          <span>Static library files</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:0.875rem;color:var(--muted);">
+          <span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;">include/</span>
+          <span>Header files for BhavyTr</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:0.875rem;color:var(--muted);">
+          <span style="color:#A5D6FF;font-family:'JetBrains Mono',monospace;">main.c</span>
+          <span>Your application source</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:0.875rem;color:var(--muted);">
+          <span style="color:#F2CC60;font-family:'JetBrains Mono',monospace;">l.bhavyatr.dll</span>
+          <span>Windows shared library</span>
+        </div>
+      </div>
+    </div>
 
-int main() {
-    Tensor *t = createTensor("[[1,2],[3,4]]");
-    printTensor(t);
-}
-  </pre>
+    <div class="folder-tree">
+      <div class="folder-titlebar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="folder-label">project/</span>
+      </div>
+      <div class="folder-body">
+        <span class="f-root">my-project/</span><br>
+        <span class="f-tree">├── </span><span class="f-dir">lib/</span><br>
+        <span class="f-tree">│   └── </span><span class="f-dll">libBhavyTr.a</span><br>
+        <span class="f-tree">├── </span><span class="f-dir">include/</span><br>
+        <span class="f-tree">│   └── </span><span class="f-file">BhavyTr.h</span><br>
+        <span class="f-tree">├── </span><span class="f-file">main.c</span><br>
+        <span class="f-tree">└── </span><span class="f-dll">l.bhavyatr.dll</span>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- COMPILE -->
+<section class="compile-section">
+  <div class="compile-header">
+    <p class="section-label">Build</p>
+    <h2 class="section-title">Compile Your Project</h2>
+    <p class="section-desc">Open a terminal and run the appropriate command for your operating system.</p>
+  </div>
+
+  <div class="os-tabs">
+    <button class="os-tab active" onclick="switchTab('windows', this)">Windows</button>
+    <button class="os-tab" onclick="switchTab('macos', this)"> macOS</button>
+    <button class="os-tab" onclick="switchTab('linux', this)"> Linux</button>
+  </div>
+
+  <div class="compile-panels">
+
+    <!-- Windows -->
+    <div class="compile-panel active" id="panel-windows">
+      <div class="compile-step">
+        <div class="compile-step-num">01</div>
+        <div class="compile-step-content">
+          <div class="compile-step-title">Open Terminal</div>
+          <div class="compile-step-desc">Open Command Prompt or PowerShell in your project directory.</div>
+        </div>
+      </div>
+      <div class="compile-step">
+        <div class="compile-step-num">02</div>
+        <div class="compile-step-content">
+          <div class="compile-step-title">Run GCC Command</div>
+          <div class="compile-step-desc">Compile your source file and link against BhavyTr.</div>
+          <div class="code-block">
+            <span class="prompt">$</span>
+            <span><span class="cmd">gcc</span> main.c <span class="flag">-o</span> <span class="out">app.exe</span> <span class="flag">-L./lib -lBhavyTr -I./include</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="compile-step">
+        <div class="compile-step-num">03</div>
+        <div class="compile-step-content">
+          <div class="compile-step-title">Run Your Application</div>
+          <div class="code-block">
+            <span class="prompt">$</span>
+            <span class="out">./app.exe</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- macOS -->
+    <div class="compile-panel" id="panel-macos">
+      <div class="compile-step">
+        <div class="compile-step-num">01</div>
+        <div class="compile-step-content">
+          <div class="compile-step-title">Open Terminal</div>
+          <div class="compile-step-desc">Open Terminal.app and navigate to your project directory.</div>
+        </div>
+      </div>
+      <div class="compile-step">
+        <div class="compile-step-num">02</div>
+        <div class="compile-step-content">
+          <div class="compile-step-title">Run GCC / Clang Command</div>
+          <div class="compile-step-desc">Compile with GCC or the system Clang compiler.</div>
+          <div class="code-block">
+            <span class="prompt">$</span>
+            <span><span class="cmd">gcc</span> main.c <span class="flag">-o</span> <span class="out">app</span> <span class="flag">-L./lib -lBhavyTr -I./include</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="compile-step">
+        <div class="compile-step-num">03</div>
+        <div class="compile-step-content">
+          <div class="compile-step-title">Run Your Application</div>
+          <div class="code-block">
+            <span class="prompt">$</span>
+            <span class="out">./app</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Linux -->
+    <div class="compile-panel" id="panel-linux">
+      <div class="compile-step">
+        <div class="compile-step-num">01</div>
+        <div class="compile-step-content">
+          <div class="compile-step-title">Open Terminal</div>
+          <div class="compile-step-desc">Open your terminal in the folder containing your C file.</div>
+        </div>
+      </div>
+      <div class="compile-step">
+        <div class="compile-step-num">02</div>
+        <div class="compile-step-content">
+          <div class="compile-step-title">Run GCC Command</div>
+          <div class="compile-step-desc">Compile and link the shared library.</div>
+          <div class="code-block">
+            <span class="prompt">$</span>
+            <span><span class="cmd">gcc</span> main.c <span class="flag">-o</span> <span class="out">app</span> <span class="flag">-L./lib -lBhavyTr -I./include -Wl,-rpath,./lib</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="compile-step">
+        <div class="compile-step-num">03</div>
+        <div class="compile-step-content">
+          <div class="compile-step-title">Run Your Application</div>
+          <div class="code-block">
+            <span class="prompt">$</span>
+            <span class="out">./app</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
 
 <!-- RELEASE NOTES -->
-<section class="py-20 px-6 bg-gray-900 border-y border-gray-800">
+<section class="release-section">
+  <div class="release-inner">
+    <p class="section-label">Changelog</p>
+    <h2 class="section-title">Version History</h2>
 
-  <div class="max-w-4xl mx-auto">
-
-    <h2 class="text-3xl font-semibold text-white mb-6">Latest Release Notes</h2>
-
-    <div class="bg-gray-950 border border-gray-800 rounded-xl p-6">
-
-      <h3 class="text-xl font-semibold text-emerald-400 mb-3">
-        v1.0.2 (Fix Release)
-      </h3>
-
-      <ul class="list-disc pl-6 text-gray-400 space-y-2">
-        <li>Fixed all undefined reference errors</li>
-        <li>Improved build stability</li>
-        <li>Optimized tensor engine linking</li>
-        <li>Cleaner compilation structure</li>
-      </ul>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- VERSION HISTORY -->
-<section class="py-20 px-6 max-w-5xl mx-auto">
-
-  <h2 class="text-3xl font-semibold text-white mb-10 text-center">
-    Version History
-  </h2>
-
-  <div class="space-y-6">
-
-    <!-- v1.0.2 -->
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-      <div class="flex justify-between items-center flex-wrap gap-2">
-        <h3 class="text-xl font-semibold text-emerald-400">v1.0.2</h3>
-        <span class="text-gray-500 text-sm">Latest</span>
+    <div class="release-grid">
+      <div class="release-card latest">
+        <div class="release-version">
+          <h3>v1.0.2</h3>
+          <span class="release-tag">Latest</span>
+        </div>
+        <p>Fix Release — build stability and linking improvements.</p>
+        <ul class="release-list">
+          <li>Fixed all undefined reference errors</li>
+          <li>Improved build stability</li>
+          <li>Optimized tensor engine linking</li>
+          <li>Cleaner compilation structure</li>
+        </ul>
       </div>
-      <p class="text-gray-400 mt-2">
-        Fix Release — Removed undefined reference errors, improved stability, optimized build system.
-      </p>
-    </div>
 
-    <!-- v1.0.1 -->
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-      <h3 class="text-xl font-semibold text-gray-300">v1.0.1</h3>
-      <p class="text-gray-400 mt-2">
-        Stable initial release with tensor engine core, parser integration, and basic operations support.
-      </p>
-    </div>
+      <div class="release-card">
+        <div class="release-version">
+          <h3>v1.0.1</h3>
+        </div>
+        <p>Stable initial release with tensor engine core.</p>
+        <ul class="release-list">
+          <li>Tensor engine core</li>
+          <li>Parser integration</li>
+          <li>Basic operations support</li>
+        </ul>
+      </div>
 
-    <!-- v1.0.0 -->
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-      <h3 class="text-xl font-semibold text-gray-300">v1.0.0</h3>
-      <p class="text-gray-400 mt-2">
-        First foundation release — architecture design, core setup, and project initialization.
-      </p>
+      <div class="release-card">
+        <div class="release-version">
+          <h3>v1.0.0</h3>
+        </div>
+        <p>Foundation release — architecture and project setup.</p>
+        <ul class="release-list">
+          <li>Architecture design</li>
+          <li>Core setup</li>
+          <li>Project initialization</li>
+        </ul>
+      </div>
     </div>
-
   </div>
-
 </section>
 
 <!-- CTA -->
-<section class="text-center py-20 px-6">
-
-  <h2 class="text-3xl font-bold text-white">Start Building with BhavyTr</h2>
-
-  <p class="mt-4 text-gray-400">
-    Explore documentation and integrate BhavyTr into your projects today.
-  </p>
-
-  <div class="mt-8">
-    <a href="docs.html"
-       class="border border-gray-700 hover:border-emerald-400 px-6 py-3 rounded-lg transition">
-      Read Documentation
-    </a>
+<section class="cta-section">
+  <div class="cta-card">
+    <p class="section-label" style="margin-bottom:16px;">Get Started</p>
+    <h2>Start Building with BhavyTr</h2>
+    <p>Explore the documentation and integrate BhavyTr into your C projects today.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://github.com/imohitsheoran/BhavyTr-v1.0.1/releases/tag/v1.2.1/BhavyTr-v1.2.1.zip"
+         class="btn-primary" download>Download ZIP</a>
+      <a href="doo.html" class="btn-secondary">Read the Docs</a>
+    </div>
   </div>
-
 </section>
 
 <!-- FOOTER -->
-<footer class="text-center py-10 text-gray-500 border-t border-gray-800">
-  <p>© 2026 BHAVYANSH TECHNOLOGY</p>
+<footer>
+  <div class="footer-logo">BhavyTr</div>
+  <div class="footer-copy">© 2026 Bhavyansh Technology. MIT License.</div>
+  <div class="footer-links">
+    <a href="doo.html">Docs</a>
+    <a href="download.html">Download</a>
+    <a href="https://github.com/imohitsheoran" target="_blank">GitHub</a>
+  </div>
 </footer>
 
-<!-- MOBILE TOGGLE -->
 <script>
-const btn = document.getElementById("menuBtn");
-const menu = document.getElementById("mobileMenu");
+  // Mobile menu
+  const btn = document.getElementById('menuBtn');
+  const menu = document.getElementById('mobileMenu');
+  btn.addEventListener('click', () => menu.classList.toggle('open'));
 
-btn.addEventListener("click", () => {
-  menu.style.maxHeight =
-    menu.style.maxHeight && menu.style.maxHeight !== "0px"
-      ? "0px"
-      : menu.scrollHeight + "px";
-});
+  // OS Tab switcher
+  function switchTab(os, el) {
+    document.querySelectorAll('.os-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.compile-panel').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('panel-' + os).classList.add('active');
+  }
 </script>
 
 </body>
