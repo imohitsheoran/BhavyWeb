@@ -898,14 +898,23 @@
         <span class="folder-label">project/</span>
       </div>
       <div class="folder-body">
-        <span class="f-root">my-project/</span><br>
-        <span class="f-tree">├── </span><span class="f-dir">lib/</span><br>
-        <span class="f-tree">│   └── </span><span class="f-dll">libBhavyTr.a</span><br>
-        <span class="f-tree">├── </span><span class="f-dir">include/</span><br>
-        <span class="f-tree">│   └── </span><span class="f-file">BhavyTr.h</span><br>
-        <span class="f-tree">├── </span><span class="f-file">main.c</span><br>
-        <span class="f-tree">└── </span><span class="f-dll">l.bhavyatr.dll</span>
-      </div>
+  <span class="f-root">my-project/</span><br>
+
+  <span class="f-tree">├── </span><span class="f-dll">libbhavytr.dll</span><br>
+  <span class="f-tree">├── </span><span class="f-file">main.c</span><br>
+  <span class="f-tree">├── </span><span class="f-file">myprogram.exe</span><br>
+
+  <span class="f-tree">├── </span><span class="f-dir">include/</span><br>
+  <span class="f-tree">│   └── </span><span class="f-dir">BhavyTr/</span><br>
+  <span class="f-tree">│       ├── </span><span class="f-file">BhavyTr.h</span><br>
+  <span class="f-tree">│       └── </span><span class="f-dir">core/</span><br>
+  <span class="f-tree">│           ├── </span><span class="f-file">Gradient.h</span><br>
+  <span class="f-tree">│           ├── </span><span class="f-file">Ops.h</span><br>
+  <span class="f-tree">│           └── </span><span class="f-file">Tensor.h</span><br>
+
+  <span class="f-tree">└── </span><span class="f-dir">lib/</span><br>
+  <span class="f-tree">    └── </span><span class="f-dll">libbhavytr.dll.a</span>
+</div>
     </div>
   </div>
 </section>
@@ -942,7 +951,7 @@
           <div class="compile-step-desc">Compile your source file and link against BhavyTr.</div>
           <div class="code-block">
             <span class="prompt">$</span>
-            <span><span class="cmd">gcc</span> main.c <span class="flag">-o</span> <span class="out">app.exe</span> <span class="flag">-L./lib -lBhavyTr -I./include</span></span>
+            <span><span class="cmd">gcc</span> main.c <span class="flag">-o</span> <span class="out">app.exe</span> <span class="flag">-I D:/BHAVYTR/include -L D:/BHAVYTR/lib -lbhavytr</span></span>
           </div>
         </div>
       </div>
