@@ -1,70 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BhavyTr — Documentation</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    :root {
-      --bg:       #07090F;
-      --bg2:      #0D1117;
-      --bg3:      #111827;
-      --border:   #1E2A3A;
-      --cyan:     #00D4FF;
-      --cyan-dim: #00A3C4;
-      --cyan-glow:rgba(0,212,255,0.12);
-      --white:    #F0F6FC;
-      --muted:    #7D8FA3;
-      --sidebar:  260px;
-    }
+<title>BhavyTr Documentation</title>
 
-    html { scroll-behavior: smooth; }
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: var(--bg);
-      color: var(--white);
-      min-height: 100vh;
-    }
+<style>
 
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-      z-index: 0;
-    }
+/* ================= BASE ================= */
 
-    /* ── NAVBAR ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(7,9,15,0.9);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-    }
+:root {
+  --bg:#07090F;
+  --bg2:#0D1117;
+  --bg3:#111827;
+  --border:#1E2A3A;
+  --cyan:#00D4FF;
+  --white:#F0F6FC;
+  --muted:#7D8FA3;
+}
 
-    .nav-inner {
-      max-width: 100%;
-      padding: 0 32px;
-      height: 68px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
 
-    .logo {
-      font-size: 1.2rem;
+
+* {margin:0;padding:0;box-sizing:border-box;}
+
+
+
+
+body {
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+}
+
+nav{
+position:sticky;top:0;z-index:10;
+background:rgba(7,9,15,0.85);
+backdrop-filter:blur(20px);
+border-bottom:1px solid var(--border);
+}
+
+.nav-inner{
+max-width:1100px;margin:auto;
+padding:0 24px;height:64px;
+display:flex;justify-content:space-between;align-items:center;
+}
+
+.logo {
+      font-size: 1.25rem;
       font-weight: 700;
+      letter-spacing: -0.5px;
       color: var(--white);
       text-decoration: none;
       display: flex;
@@ -86,708 +73,500 @@
       font-weight: 500;
     }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      list-style: none;
-    }
 
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      padding: 8px 16px;
-      border-radius: 8px;
-      transition: color 0.2s, background 0.2s;
-    }
-    .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.05); }
-    .nav-links a.active { color: var(--cyan); }
+.nav-links{display:flex;gap:8px;list-style:none;}
+.nav-links a{
+color:var(--muted);
+padding:6px 14px;border-radius:8px;text-decoration:none;
+}
+.nav-links a:hover{background:rgba(255,255,255,0.05);color:var(--white);}
+.nav-cta{background:var(--cyan);color:#000!important;font-weight:600;}
 
-    .nav-cta {
-      background: var(--cyan) !important;
-      color: #000 !important;
-      font-weight: 600 !important;
-      padding: 8px 20px !important;
-      border-radius: 8px !important;
-    }
-    .nav-cta:hover { background: #33DDFF !important; }
+/* ================= SIDEBAR ================= */
 
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--white);
-      cursor: pointer;
-      padding: 8px;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--white); border-radius: 2px; }
+.sidebar {
+  width:260px;
+  height:100vh;
+  position:fixed;
+  top:64px; /* 👈 important */
+  left:0;
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  padding:20px;
+  overflow-y:auto;
+}
 
-    .mobile-menu {
-      display: none;
-      flex-direction: column;
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      padding: 12px 0;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a { color: var(--muted); text-decoration: none; padding: 12px 32px; font-size: 0.95rem; }
-    .mobile-menu a:hover { color: var(--cyan); }
+.sidebar h2 {
+  font-size:1.2rem;
+  margin-bottom:20px;
+}
 
-    /* ── LAYOUT ── */
-    .layout {
-      display: flex;
-      min-height: calc(100vh - 68px);
-      position: relative;
-      z-index: 1;
-    }
+.sidebar a {
+  display:block;
+  color:var(--muted);
+  text-decoration:none;
+  padding:8px 10px;
+  border-radius:6px;
+  font-size:0.9rem;
+}
 
-    /* ── SIDEBAR ── */
-    .sidebar {
-      width: var(--sidebar);
-      flex-shrink: 0;
-      border-right: 1px solid var(--border);
-      padding: 32px 20px;
-      position: sticky;
-      top: 68px;
-      height: calc(100vh - 68px);
-      overflow-y: auto;
-      background: rgba(7,9,15,0.6);
-    }
+.sidebar a:hover {color:var(--cyan);background:rgba(255,255,255,0.05);}
 
-    .sidebar-title {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 0 12px;
-      margin-bottom: 12px;
-    }
+/* ================= CONTENT ================= */
 
-    .sidebar nav { display: flex; flex-direction: column; gap: 2px; position: static; background: none; border: none; backdrop-filter: none; }
-    .sidebar nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.875rem;
-      padding: 9px 12px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: color 0.2s, background 0.2s;
-      border-left: 2px solid transparent;
-    }
-    .sidebar nav a:hover { color: var(--white); background: rgba(255,255,255,0.05); }
-    .sidebar nav a.active { color: var(--cyan); background: var(--cyan-glow); border-left-color: var(--cyan); }
+.content {
+  margin-left:260px;
+  padding:40px;
+  max-width:900px;
+}
 
-    .sidebar-icon { font-size: 0.9rem; width: 18px; text-align: center; }
+h1 {font-size:2.5rem;margin-bottom:20px;}
+h2 {margin-top:50px;margin-bottom:15px;}
+h3 {margin-top:30px;margin-bottom:10px;}
 
-    /* ── MAIN ── */
-    main {
-      flex: 1;
-      padding: 48px 56px;
-      max-width: 880px;
-    }
+p {color:var(--muted);line-height:1.7;margin-bottom:12px;}
 
-    /* ── DOC HEADER ── */
-    .doc-header { margin-bottom: 56px; padding-bottom: 40px; border-bottom: 1px solid var(--border); }
-    .doc-header .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(0,212,255,0.08);
-      border: 1px solid rgba(0,212,255,0.2);
-      color: var(--cyan);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: 100px;
-      margin-bottom: 20px;
-    }
-    .doc-header h1 {
-      font-size: 2.6rem;
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 12px;
-    }
-    .doc-header p { color: var(--muted); font-size: 1.05rem; line-height: 1.7; }
+/* ================= CODE ================= */
 
-    /* ── DOC SECTION ── */
-    .doc-section { margin-bottom: 64px; scroll-margin-top: 90px; }
+pre {
+  background:var(--bg2);
+  padding:16px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  overflow:auto;
+  margin:15px 0;
+}
 
-    .doc-section h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+code {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.85rem;
+}
 
-    .doc-section h2::before {
-      content: '';
-      width: 4px;
-      height: 24px;
-      background: var(--cyan);
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
+/* ================= TABLE ================= */
 
-    .doc-section h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--cyan);
-      margin: 28px 0 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+table {
+  width:100%;
+  border-collapse:collapse;
+  margin:15px 0;
+}
 
-    .doc-section p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.75;
-      margin-bottom: 16px;
-    }
+td,th {
+  border:1px solid var(--border);
+  padding:10px;
+  text-align:left;
+}
 
-    /* ── CODE BLOCK ── */
-    .code-block {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      margin: 16px 0 28px;
-    }
+th {background:var(--bg3);}
 
-    .code-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 18px;
-      background: var(--bg3);
-      border-bottom: 1px solid var(--border);
-    }
+/* ================= FUNCTION BLOCK ================= */
 
-    .code-lang {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--cyan);
-      font-weight: 600;
-      letter-spacing: 0.05em;
-    }
+.func {
+  border:1px solid var(--border);
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:25px;
+  background:var(--bg2);
+}
 
-    .copy-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.75rem;
-      font-family: 'Outfit', sans-serif;
-      padding: 4px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .copy-btn:hover { border-color: var(--cyan); color: var(--cyan); }
-    .copy-btn.copied { color: #28C840; border-color: #28C840; }
+.signature {
+  color:var(--cyan);
+  font-family:'JetBrains Mono';
+  margin-bottom:10px;
+}
 
-    pre {
-      padding: 20px;
-      overflow-x: auto;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.855rem;
-      line-height: 1.8;
-      color: var(--white);
-    }
+.param {
+  margin-left:15px;
+}
 
-    /* ── SYNTAX ── */
-    .c-comment { color: #4A5F73; }
-    .c-kw  { color: #FF7B72; }
-    .c-type{ color: var(--cyan); }
-    .c-fn  { color: #D2A8FF; }
-    .c-str { color: #A5D6FF; }
-    .c-num { color: #F2CC60; }
-
-    /* ── STEPS ── */
-    .steps { display: flex; flex-direction: column; gap: 0; margin: 16px 0; }
-
-    .step {
-      display: flex;
-      gap: 20px;
-      padding-bottom: 32px;
-      position: relative;
-    }
-
-    .step:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      left: 19px;
-      top: 40px;
-      bottom: 0;
-      width: 2px;
-      background: var(--border);
-    }
-
-    .step-num {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(0,212,255,0.08);
-      border: 2px solid rgba(0,212,255,0.3);
-      color: var(--cyan);
-      font-weight: 700;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    .step-content h4 { font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 6px; }
-    .step-content p  { font-size: 0.9rem; color: var(--muted); margin: 0; }
-
-    /* ── NOTES ── */
-    .note-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-    .note-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 16px 20px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-    .note-list li::before {
-      content: '→';
-      color: var(--cyan);
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .warning-note {
-      background: rgba(254,188,46,0.06);
-      border: 1px solid rgba(254,188,46,0.2);
-      border-radius: 10px;
-      padding: 16px 20px;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      font-size: 0.9rem;
-      color: #F2CC60;
-      margin: 16px 0;
-    }
-
-    /* ── FILE TREE ── */
-    .file-tree {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.855rem;
-      line-height: 2;
-      color: var(--muted);
-      margin: 16px 0 28px;
-    }
-
-    .file-tree .folder { color: var(--cyan); }
-    .file-tree .file   { color: var(--white); }
-    .file-tree .tree   { color: var(--border); }
-
-    /* ── INLINE CODE ── */
-    code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85em;
-      color: var(--cyan);
-      background: rgba(0,212,255,0.08);
-      padding: 2px 7px;
-      border-radius: 4px;
-      border: 1px solid rgba(0,212,255,0.15);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-      position: relative;
-      z-index: 1;
-    }
-
-    footer .left  { font-weight: 700; font-size: 0.95rem; }
-    footer .right { font-size: 0.82rem; color: var(--muted); }
-    footer .links { display: flex; gap: 20px; }
-    footer .links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
-    footer .links a:hover { color: var(--cyan); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .sidebar { display: none; }
-      main { padding: 32px 24px; max-width: 100%; }
-    }
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
+<!-- ================= SIDEBAR ================= -->
+<div class="topNav">
 <nav>
   <div class="nav-inner">
-    <a href="index.html" class="logo">
-      <div class="logo-icon">Tr</div>
-      BhavyTr
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="docs.html" class="active">Docs</a></li>
-      <li><a href="download.html">Download</a></li>
-      <li><a href="https://github.com/imohitsheoran" target="_blank" class="nav-cta">GitHub →</a></li>
-    </ul>
-    <button class="hamburger" id="menuBtn">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Home</a>
-    <a href="docs.html">Docs</a>
-    <a href="download.html">Download</a>
-    <a href="https://github.com/imohitsheoran" target="_blank">GitHub</a>
+    <a href="index.html" class="logo">BhavyTr</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="docs.html">Docs</a>
+      <a href="download.html" class="active">Download</a>
+      <a href="https://github.com/imohitsheoran" target="_blank" class="nav-cta">
+        GitHub →
+      </a>
+    </div>
   </div>
 </nav>
+</div>
+<div class="sidebar">
+<h2>BhavyTr Docs</h2>
 
-<div class="layout">
+<a href="#create">Create</a>
+<a href="#copy">Copy / View</a>
+<a href="#element">Element Access</a>
+<a href="#math">Math</a>
+<a href="#matrix">Matrix</a>
+<a href="#activation">Activation</a>
+<a href="#reduction">Reduction</a>
+<a href="#autograd">Autograd</a>
+<a href="#utils">Utilities</a>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-title">Documentation</div>
-    <nav>
-      <a href="#install"   class="active"><span class="sidebar-icon">📦</span> Installation</a>
-      <a href="#setup">    <span class="sidebar-icon">⚙️</span> Setup & Compile</a>
-      <a href="#structure"><span class="sidebar-icon">📁</span> Folder Structure</a>
-      <a href="#usage">    <span class="sidebar-icon">💻</span> Basic Usage</a>
-      <a href="#api">      <span class="sidebar-icon">🔌</span> API Reference</a>
-      <a href="#notes">    <span class="sidebar-icon">📝</span> Notes</a>
-    </nav>
-  </aside>
-
-  <!-- MAIN -->
-  <main>
-
-    <!-- DOC HEADER -->
-    <div class="doc-header">
-      <div class="badge">Documentation</div>
-      <h1>Getting Started</h1>
-      <p>Learn how to install, configure, compile, and integrate BhavyTr into your C projects.</p>
-    </div>
-
-    <!-- INSTALL -->
-    <section class="doc-section" id="install">
-      <h2>Installation</h2>
-      <p>Download the latest release from GitHub and extract it into your project directory. The package contains everything you need — headers, libraries, and the compiled binary.</p>
-
-      <div class="file-tree">
-        <span class="folder">bhavytr/</span><br>
-        <span class="tree">├── </span><span class="folder">include/</span><br>
-        <span class="tree">├── </span><span class="folder">lib/</span><br>
-        <span class="tree">├── </span><span class="folder">bin/</span><br>
-        <span class="tree">└── </span><span class="file">BhavyTr.h</span>
-      </div>
-    </section>
-
-    <!-- SETUP -->
-    <section class="doc-section" id="setup">
-      <h2>Setup & Compilation</h2>
-      <p>Follow these steps to prepare your project and compile BhavyTr correctly on Windows with GCC.</p>
-
-      <div class="steps">
-
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <h4>Prepare Your Folder Structure</h4>
-            <p>Your project root should look like this before compiling.</p>
-          </div>
-        </div>
-
-        <div class="file-tree" style="margin-left:60px;">
-          <span class="folder">BhavyTr/</span><br>
-          <span class="tree">├── </span><span class="file">main.c</span><br>
-          <span class="tree">├── </span><span class="file">libbhavytr_shared.dll</span><br>
-          <span class="tree">├── </span><span class="folder">include/</span><br>
-          <span class="tree">└── </span><span class="folder">lib/</span><br>
-          <span class="tree">&nbsp;&nbsp;&nbsp;&nbsp;└── </span><span class="folder">gcc/</span><br>
-          <span class="tree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── </span><span class="file">libbhavytr_shared.dll.a</span><br>
-          <span class="tree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── </span><span class="file">libbhavytr_static.a</span>
-        </div>
-
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <h4>Copy Files (Windows)</h4>
-            <p>Run these commands in your terminal to set up the folder.</p>
-          </div>
-        </div>
-
-        <div class="code-block" style="margin-left:60px;">
-          <div class="code-header">
-            <span class="code-lang">CMD</span>
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-          </div>
-          <pre>mkdir BhavyTr
-xcopy /E /I BhavyTr-v1.0.2\include BhavyTr\include
-mkdir BhavyTr\lib\gcc
-copy BhavyTr-v1.0.2\lib\gcc\libbhavytr_shared.dll.a BhavyTr\lib\gcc\
-copy BhavyTr-v1.0.2\lib\gcc\libbhavytr_static.a BhavyTr\lib\gcc\
-copy BhavyTr-v1.0.2\bin\gcc\libbhavytr_shared.dll BhavyTr\</pre>
-        </div>
-
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-content">
-            <h4>Compile — Static (Recommended)</h4>
-            <p>Static linking bundles everything into one executable — no DLL needed at runtime.</p>
-          </div>
-        </div>
-
-        <div class="code-block" style="margin-left:60px;">
-          <div class="code-header">
-            <span class="code-lang">GCC</span>
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-          </div>
-          <pre>gcc main.c -I include lib/gcc/libbhavytr_static.a -o app.exe</pre>
-        </div>
-
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-content">
-            <h4>Compile — Dynamic</h4>
-            <p>Use dynamic linking to keep the binary smaller. Requires the DLL at runtime.</p>
-          </div>
-        </div>
-
-        <div class="code-block" style="margin-left:60px;">
-          <div class="code-header">
-            <span class="code-lang">GCC</span>
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-          </div>
-          <pre>gcc main.c -Iinclude -Llib -lBhavyTr -o app.exe</pre>
-        </div>
-
-        <div class="step">
-          <div class="step-num">5</div>
-          <div class="step-content">
-            <h4>Run Your App</h4>
-            <p>Execute the compiled binary from your terminal.</p>
-          </div>
-        </div>
-
-        <div class="code-block" style="margin-left:60px;">
-          <div class="code-header">
-            <span class="code-lang">CMD</span>
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-          </div>
-          <pre>app.exe</pre>
-        </div>
-
-      </div>
-
-      <div class="warning-note">
-        ⚠️ Make sure <code>libbhavytr_shared.dll</code> is in the same folder as your executable when using dynamic linking.
-      </div>
-    </section>
-
-    <!-- STRUCTURE -->
-    <section class="doc-section" id="structure">
-      <h2>Folder Structure</h2>
-      <p>Understanding the layout of BhavyTr helps you extend or debug it effectively.</p>
-      <ul class="note-list">
-        <li><strong style="color:var(--white);margin-right:8px;">include/</strong> Public header files — the only headers you need to include in your code.</li>
-        <li><strong style="color:var(--white);margin-right:8px;">parser/</strong> Input parsing layer — converts string expressions into tensor operations.</li>
-        <li><strong style="color:var(--white);margin-right:8px;">core/</strong> The tensor engine — handles all computation and memory.</li>
-      </ul>
-    </section>
-
-    <!-- USAGE -->
-    <section class="doc-section" id="usage">
-      <h2>Basic Usage</h2>
-      <p>Here's a complete example covering tensor creation, slicing, broadcasting, the expression engine, and cleanup.</p>
-
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-lang">C — main.c</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><span class="c-kw">#include</span> <span class="c-str">"BhavyTr.h"</span>
-<span class="c-kw">#include</span> <span class="c-str">&lt;stdio.h&gt;</span>
-<span class="c-kw">#include</span> <span class="c-str">&lt;stdlib.h&gt;</span>
-
-<span class="c-kw">int</span> <span class="c-fn">main</span>() {
-
-    <span class="c-comment">/* ── Create Tensors ── */</span>
-    <span class="c-type">Tensor</span>* A = <span class="c-fn">createTensorA</span>(<span class="c-str">"L[[1,2,3],[4,5,6]]"</span>);   <span class="c-comment">// (2,3)</span>
-    <span class="c-type">Tensor</span>* B = <span class="c-fn">createTensorA</span>(<span class="c-str">"L[[10,20,30]]"</span>);         <span class="c-comment">// (1,3)</span>
-    <span class="c-type">Tensor</span>* C = <span class="c-fn">createTensorA</span>(<span class="c-str">"L[[2],[3]]"</span>);            <span class="c-comment">// (2,1)</span>
-
-    <span class="c-fn">printTensor</span>(A);
-    <span class="c-fn">printTensor</span>(B);
-
-    <span class="c-comment">/* ── Slicing & Indexing ── */</span>
-    <span class="c-type">Tensor</span>* s1 = <span class="c-fn">sliceTensor</span>(A, <span class="c-str">"I[1,2]"</span>);       <span class="c-comment">// A[1,2]</span>
-    <span class="c-type">Tensor</span>* s2 = <span class="c-fn">sliceTensor</span>(A, <span class="c-str">"S[:,1]"</span>);       <span class="c-comment">// A[:,1]</span>
-    <span class="c-type">Tensor</span>* s3 = <span class="c-fn">sliceTensor</span>(A, <span class="c-str">"S[0:2,1:3]"</span>);  <span class="c-comment">// range</span>
-    <span class="c-type">Tensor</span>* s4 = <span class="c-fn">sliceTensor</span>(A, <span class="c-str">"I[-1,-1]"</span>);    <span class="c-comment">// negative index</span>
-
-    <span class="c-comment">/* ── Broadcast Operations ── */</span>
-    <span class="c-type">Tensor</span>* add1 = <span class="c-fn">tensorAdd</span>(A, B);
-    <span class="c-type">Tensor</span>* mul1 = <span class="c-fn">tensorMul</span>(A, C);
-
-    <span class="c-comment">/* ── Expression Engine ── */</span>
-    <span class="c-fn">registerTensor</span>(<span class="c-str">'A'</span>, A);
-    <span class="c-fn">registerTensor</span>(<span class="c-str">'B'</span>, B);
-    <span class="c-fn">registerTensor</span>(<span class="c-str">'C'</span>, C);
-
-    <span class="c-type">Tensor</span>* e1 = <span class="c-fn">ops</span>(<span class="c-str">"A+B"</span>);
-    <span class="c-type">Tensor</span>* e2 = <span class="c-fn">ops</span>(<span class="c-str">"A*C"</span>);
-    <span class="c-type">Tensor</span>* e3 = <span class="c-fn">ops</span>(<span class="c-str">"A-B"</span>);
-    <span class="c-type">Tensor</span>* e4 = <span class="c-fn">ops</span>(<span class="c-str">"A/B"</span>);
-
-    <span class="c-comment">/* ── Memory Cleanup ── */</span>
-    <span class="c-fn">freeTensorView</span>(s1); <span class="c-fn">freeTensorView</span>(s2);
-    <span class="c-fn">freeTensorView</span>(s3); <span class="c-fn">freeTensorView</span>(s4);
-    <span class="c-fn">freeTensor</span>(add1);   <span class="c-fn">freeTensor</span>(mul1);
-    <span class="c-fn">freeTensor</span>(e1);     <span class="c-fn">freeTensor</span>(e2);
-    <span class="c-fn">freeTensor</span>(e3);     <span class="c-fn">freeTensor</span>(e4);
-    <span class="c-fn">freeTensor</span>(A);      <span class="c-fn">freeTensor</span>(B);      <span class="c-fn">freeTensor</span>(C);
-
-    <span class="c-kw">return</span> <span class="c-num">0</span>;
-}</pre>
-      </div>
-    </section>
-
-    <!-- API -->
-    <section class="doc-section" id="api">
-      <h2>API Reference</h2>
-      <p>A quick overview of the core functions available in BhavyTr.</p>
-
-      <h3>📐 Tensor Creation</h3>
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-lang">C</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><span class="c-type">Tensor</span>* a = <span class="c-fn">createTensorA</span>(<span class="c-str">"L[[1,2],[3,4]]"</span>);
-<span class="c-type">Tensor</span>* b = <span class="c-fn">createTensor</span>(<span class="c-str">"[[5,6],[7,8]]"</span>);</pre>
-      </div>
-
-      <h3>➕ Operations</h3>
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-lang">C</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><span class="c-type">Tensor</span>* sum  = <span class="c-fn">tensorAdd</span>(a, b);
-<span class="c-type">Tensor</span>* prod = <span class="c-fn">tensorMul</span>(a, b);
-<span class="c-type">Tensor</span>* diff = <span class="c-fn">ops</span>(<span class="c-str">"A-B"</span>);
-<span class="c-fn">printTensor</span>(sum);</pre>
-      </div>
-
-      <h3>✂️ Slicing</h3>
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-lang">C</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><span class="c-type">Tensor</span>* elem  = <span class="c-fn">sliceTensor</span>(a, <span class="c-str">"I[0,1]"</span>);
-<span class="c-type">Tensor</span>* row   = <span class="c-fn">sliceTensor</span>(a, <span class="c-str">"S[0,:]"</span>);
-<span class="c-type">Tensor</span>* range = <span class="c-fn">sliceTensor</span>(a, <span class="c-str">"S[0:2,0:2]"</span>);</pre>
-      </div>
-
-      <h3>🧹 Memory Management</h3>
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-lang">C</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><span class="c-fn">freeTensor</span>(a);       <span class="c-comment">// Free an owned tensor</span>
-<span class="c-fn">freeTensorView</span>(s1);  <span class="c-comment">// Free a slice / view tensor</span></pre>
-      </div>
-    </section>
-
-    <!-- NOTES -->
-    <section class="doc-section" id="notes">
-      <h2>Notes</h2>
-      <ul class="note-list">
-        <li>Currently supports CPU execution only — no GPU required.</li>
-        <li>GPU support is planned for a future release.</li>
-        <li>Always call <code>freeTensor</code> or <code>freeTensorView</code> for every tensor you create to avoid memory leaks.</li>
-        <li>Use <code>freeTensorView</code> specifically for tensors returned by <code>sliceTensor</code>.</li>
-      </ul>
-    </section>
-
-  </main>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="left">BhavyTr</div>
-  <div class="right">© 2026 Bhavyansh Technology. MIT License.</div>
-  <div class="links">
-    <a href="index.html">Home</a>
-    <a href="download.html">Download</a>
-    <a href="https://github.com/imohitsheoran" target="_blank">GitHub</a>
-  </div>
-</footer>
+<!-- ================= CONTENT ================= -->
 
-<script>
-  // Mobile menu
-  const btn = document.getElementById('menuBtn');
-  const menu = document.getElementById('mobileMenu');
-  btn.addEventListener('click', () => menu.classList.toggle('open'));
+<div class="content">
 
-  // Copy button
-  function copyCode(btn) {
-    const pre = btn.closest('.code-block').querySelector('pre');
-    navigator.clipboard.writeText(pre.innerText).then(() => {
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
-    });
-  }
+<h1>BhavyTr Documentation</h1>
+<p>Complete API reference for BhavyTr tensor engine.</p>
 
-  // Active sidebar link on scroll
-  const sections = document.querySelectorAll('.doc-section');
-  const links = document.querySelectorAll('.sidebar nav a');
+<!-- ================= CREATE ================= -->
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const active = document.querySelector(`.sidebar nav a[href="#${e.target.id}"]`);
-        if (active) active.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-30% 0px -60% 0px' });
+<h2 id="create">Tensor Creation</h2>
 
-  sections.forEach(s => observer.observe(s));
-</script>
+<div class="func">
+
+<div class="signature">
+Tensor* createTensor(int32_t* shape, int ndim, DataType dtype)
+</div>
+
+<p>
+Creates a new tensor with allocated memory initialized to zero.
+This is the base constructor used internally by most other APIs.
+</p>
+
+<h3>Parameters</h3>
+
+<p class="param">
+<b>shape (int32_t*)</b><br>
+Pointer to an array describing tensor dimensions.<br>
+Example: {2, 3} → 2x3 matrix
+</p>
+
+<p class="param">
+<b>ndim (int)</b><br>
+Number of dimensions.<br>
+Must match length of shape array.
+</p>
+
+<p class="param">
+<b>dtype (DataType)</b><br>
+Specifies element type:
+F32, F64, I32, I64, U8, BOOL
+</p>
+
+<h3>Returns</h3>
+<p>
+Pointer to allocated Tensor object.<br>
+Returns NULL if memory allocation fails.
+</p>
+
+<h3>Memory Behavior</h3>
+<p>
+Allocates new memory for both metadata and data buffer.<br>
+Caller is responsible for calling <code>freeTensor()</code>.
+</p>
+
+<h3>When to Use</h3>
+<ul>
+<li>Creating empty tensors</li>
+<li>Base for manual initialization</li>
+<li>Internal library construction</li>
+</ul>
+
+<h3>Example</h3>
+
+<pre><code>
+int32_t shape[] = {2, 3};
+
+Tensor* t = createTensor(shape, 2, F32);
+
+printTensor(t);
+
+freeTensor(t);
+</code></pre>
+
+<h3>Notes</h3>
+<ul>
+<li>Data is always contiguous</li>
+<li>Initialized to zero</li>
+<li>Invalid shape → undefined behavior</li>
+</ul>
+
+</div>
+
+<div class="func">
+<div class="signature">Tensor* onesTensor(int32_t* shape, int ndim, DataType dtype)</div>
+
+<p>Create tensor filled with ones.</p>
+
+<pre><code>
+Tensor* t = onesTensor(shape,2,F32);
+</code></pre>
+</div>
+
+<!-- ================= COPY ================= -->
+
+<h2 id="copy">Copy / View</h2>
+
+<div class="func">
+<div class="signature">Tensor* copyTensor(Tensor* t)</div>
+
+<p>Creates a deep copy of the tensor.</p>
+
+<h3>Parameters</h3>
+<p class="param"><b>t (Tensor*)</b> → Source tensor</p>
+
+<h3>Returns</h3>
+<p>New tensor with independent memory</p>
+
+<h3>Why Use</h3>
+<p>
+Use when you need a separate tensor that does not affect the original.
+</p>
+
+<h3>Memory</h3>
+<p>Allocates new buffer → O(n)</p>
+
+<pre><code>
+Tensor* copy = copyTensor(original);
+</code></pre>
+</div>
+
+<div class="func">
+<div class="signature">Tensor* viewTensor(Tensor* t, int32_t* shape, int ndim)</div>
+
+<p>
+Creates a new tensor that shares the same data buffer.
+No memory copy is performed.
+</p>
+
+<h3>Parameters</h3>
+<p class="param"><b>t</b> → Source tensor</p>
+<p class="param"><b>shape</b> → New shape</p>
+<p class="param"><b>ndim</b> → New dimensions</p>
+
+<h3>Returns</h3>
+<p>New tensor wrapper (shared memory)</p>
+
+<h3>Why Use</h3>
+<ul>
+<li>Fast reshape</li>
+<li>Memory efficiency</li>
+</ul>
+
+<h3>Important Rule</h3>
+<p>
+Total elements must match.
+</p>
+
+<h3>Example</h3>
+
+<pre><code>
+Tensor* v = viewTensor(t, (int32_t[]){1,6}, 2);
+</code></pre>
+
+<h3>Danger</h3>
+<ul>
+<li>Modifying original affects view</li>
+<li>Free original after view → invalid memory</li>
+</ul>
+
+</div>
+
+<div class="func">
+<div class="signature">Tensor* reshapeTensor(Tensor* t, int32_t* shape, int ndim)</div>
+
+<p>Reshapes tensor (usually zero-copy).</p>
+
+<h3>Difference from view</h3>
+<p>API-safe version with validation</p>
+
+</div>
+
+<div class="func">
+<div class="signature">Tensor* transposeTensor(Tensor* t)</div>
+
+<p>
+Swaps rows and columns of a 2D tensor.
+</p>
+
+<h3>Requirements</h3>
+<ul>
+<li>Must be 2D</li>
+</ul>
+
+<h3>Example</h3>
+
+<pre><code>
+Tensor* t2 = transposeTensor(t);
+</code></pre>
+
+</div>
+
+<!-- ================= ELEMENT ================= -->
+
+<h2 id="element">Element Access</h2>
+
+<div class="func">
+<div class="signature">void setTensorFloat(Tensor* t, int32_t* idx, float value)</div>
+<p>Set float element.</p>
+</div>
+
+<div class="func">
+<div class="signature">float getTensorFloat(Tensor* t, int32_t* idx)</div>
+<p>Get float element.</p>
+</div>
+
+<!-- ================= MATH ================= -->
+
+<h2 id="math">Math Operations</h2>
+
+<div class="func">
+<div class="signature">Tensor* addTensor(Tensor* a, Tensor* b)</div>
+
+<p>Performs element-wise addition.</p>
+
+<h3>Requirements</h3>
+<ul>
+<li>Same shape</li>
+<li>Same dtype</li>
+</ul>
+
+<h3>Returns</h3>
+<p>New tensor</p>
+
+<h3>Example</h3>
+
+<pre><code>
+Tensor* c = addTensor(a, b);
+</code></pre>
+
+</div>
+
+<div class="func">
+<div class="signature">Tensor* subTensor(Tensor* a, Tensor* b)</div>
+
+<p>Element-wise subtraction.</p>
+
+</div>
+
+<div class="func">
+<div class="signature">Tensor* mulTensor(Tensor* a, Tensor* b)</div>
+
+<p>Element-wise multiplication.</p>
+
+</div>
+
+<div class="func">
+<div class="signature">Tensor* divTensor(Tensor* a, Tensor* b)</div>
+
+<p>Element-wise division.</p>
+
+<h3>Warning</h3>
+<p>Division by zero → undefined</p>
+
+</div>
+
+<div class="func">
+<div class="signature">Tensor* negTensor(Tensor* t)</div>
+
+<p>Negates all elements.</p>
+
+</div>
+
+<!-- ================= MATRIX ================= -->
+
+<h2 id="matrix">Matrix Operations</h2>
+
+<div class="func">
+<div class="signature">Tensor* matmulTensor(Tensor* a, Tensor* b)</div>
+<p>Matrix multiplication.</p>
+</div>
+
+<div class="func">
+<div class="signature">Tensor* transposeTensor(Tensor* t)</div>
+<p>Transpose matrix.</p>
+</div>
+
+<!-- ================= ACTIVATION ================= -->
+
+<h2 id="activation">Activation Functions</h2>
+
+<div class="func">
+<div class="signature">Tensor* reluTensor(Tensor* t)</div>
+<p>ReLU activation.</p>
+</div>
+
+<div class="func">
+<div class="signature">Tensor* sigmoidTensor(Tensor* t)</div>
+<p>Sigmoid activation.</p>
+</div>
+
+<div class="func">
+<div class="signature">Tensor* tanhTensor(Tensor* t)</div>
+<p>Tanh activation.</p>
+</div>
+
+<!-- ================= REDUCTION ================= -->
+
+<h2 id="reduction">Reduction</h2>
+
+<div class="func">
+<div class="signature">float sumAllTensor(Tensor* t)</div>
+<p>Sum all elements.</p>
+</div>
+
+<div class="func">
+<div class="signature">Tensor* sumTensor(Tensor* t, int axis)</div>
+<p>Reduce along axis.</p>
+</div>
+
+<!-- ================= AUTOGRAD ================= -->
+
+<h2 id="autograd">Autograd</h2>
+
+<div class="func">
+<div class="signature">void backwardTensor(Tensor* t)</div>
+
+<p>
+Computes gradients for computation graph.
+</p>
+
+<h3>Requirement</h3>
+<p>Requires grad must be enabled</p>
+
+<h3>Example</h3>
+
+<pre><code>
+backwardTensor(loss);
+</code></pre>
+
+</div>
+
+<div class="func">
+<div class="signature">Tensor* getGradientTensor(Tensor* t)</div>
+
+<p>Returns gradient tensor.</p>
+
+</div>
+
+<!-- ================= UTILS ================= -->
+
+<h2 id="utils">Utilities</h2>
+
+<div class="func">
+<div class="signature">void printTensor(Tensor* t)</div>
+<p>Print tensor.</p>
+</div>
+
+<div class="func">
+<div class="signature">bool isValidTensor(Tensor* t)</div>
+<p>Validate tensor.</p>
+</div>
+
+</div>
 
 </body>
 </html>
